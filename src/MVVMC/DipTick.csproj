@@ -9,7 +9,7 @@
     <RootNamespace>DipTick</RootNamespace>
     <!-- The one place the version is set: diptick version, the Help pages and the installer read it. -->
 
-    <Version>1.0.0</Version>
+    <Version>1.0.1</Version>
     <Product>DipTick</Product>
     <Authors>Sifr X Ansari</Authors>
     <Copyright>Copyright (c) 2026 Sifr X Ansari</Copyright>
@@ -54,8 +54,8 @@
     <PackageReference Include="Google.Apis.Auth" Version="1.76.0" />
     <!-- The session store: Microsoft's SQLite provider with the bundled e_sqlite3. -->
     <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.12" />
-    <!-- Argon2id for the password hash (libsodium through NSec). -->
-    <PackageReference Include="NSec.Cryptography" Version="26.4.0" />
+    <!-- Argon2id for the password hash, in C#: nothing native, so nothing needs the Visual C++ runtime. -->
+    <PackageReference Include="Konscious.Security.Cryptography.Argon2" Version="1.3.1" />
     <PackageReference Include="System.Security.Cryptography.ProtectedData" Version="10.0.12" />
     <!--
       Research: pages DipTick fetches read as text through AngleSharp, an HTML5 parser (MIT), and

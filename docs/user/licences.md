@@ -26,7 +26,8 @@ Each licence named here is the one the package itself declares, in its NuGet ent
 - HarfBuzzSharp 8.3.1.3: MIT
 - HarfBuzzSharp.NativeAssets.Win32 8.3.1.3: MIT
 - JetBrains.Annotations 2026.2.0: MIT
-- libsodium 1.0.22: ISC
+- Konscious.Security.Cryptography.Argon2 1.3.1: MIT
+- Konscious.Security.Cryptography.Blake2 1.1.1: MIT
 - Markdig 1.3.2: BSD-2-Clause
 - MicroCom.Runtime 0.11.6: MIT
 - Microsoft.Data.Sqlite.Core 10.0.12: MIT
@@ -45,7 +46,6 @@ Each licence named here is the one the package itself declares, in its NuGet ent
 - Microsoft.Extensions.Primitives 10.0.11: MIT
 - ModelContextProtocol.Core 2.2.0: Apache-2.0, with MIT for its earlier contributions (its LICENSE file)
 - Newtonsoft.Json 13.0.4: MIT
-- NSec.Cryptography 26.4.0: MIT
 - Onigwrap 1.0.11: MIT
 - SkiaSharp 3.119.4: MIT
 - SkiaSharp.NativeAssets.Win32 3.119.4: MIT
@@ -69,7 +69,6 @@ Each licence named here is the one the package itself declares, in its NuGet ent
 ## Inside them
 
 - SQLite 3.53.3, in e_sqlite3.dll: public domain ("SQLite is in the Public Domain", sqlite.org).
-- libsodium, in libsodium.dll: ISC, Frank Denis.
 - Skia, in libSkiaSharp.dll: BSD-3-Clause; with SPIRV-Cross and Wuffs: Apache-2.0.
 - HarfBuzz, in libHarfBuzzSharp.dll: HarfBuzz's own licence, an MIT-style one.
 - ANGLE, in av_libglesv2.dll: BSD-3-Clause; with zlib 1.3.2 (the zlib licence), Abseil (Apache-2.0), xxHash 0.8.3 (BSD-2-Clause) and Chromium's compression utilities (BSD-3-Clause).

@@ -10,7 +10,6 @@
 -->
 <Project Sdk="WixToolset.Sdk/7.0.0">
   <PropertyGroup>
-    <DipTickVersion Condition="'$(DipTickVersion)' == ''">1.0.0</DipTickVersion>
     <OutputName>DipTick-$(DipTickVersion)-x64</OutputName>
     <InstallerPlatform>x64</InstallerPlatform>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
@@ -24,5 +23,10 @@
 
   <Target Name="RequirePayloadDir" BeforeTargets="CoreCompile" Condition="'$(PayloadDir)' == ''">
     <Error Text="Set PayloadDir to the folder that holds diptick.exe, LICENSE.txt and THIRD-PARTY-NOTICES.txt." />
+  </Target>
+
+  <!-- The version is DipTick.csproj's own, which build.ps1 reads and passes; a default here would go stale. -->
+  <Target Name="RequireDipTickVersion" BeforeTargets="CoreCompile" Condition="'$(DipTickVersion)' == ''">
+    <Error Text="Set DipTickVersion to the Version in src\MVVMC\DipTick.csproj." />
   </Target>
 </Project>

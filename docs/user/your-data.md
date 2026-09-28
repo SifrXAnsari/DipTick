@@ -15,7 +15,7 @@ The Windows Application event log also holds a note of the audit log's length, w
 
 ## The program's own libraries
 
-diptick.exe is one file that carries the libraries it draws, stores and checks passwords with. The first time a version starts, it unpacks them into a folder of its own, `%TEMP%\.net\diptick`, or under the folder the `DOTNET_BUNDLE_EXTRACT_BASE_DIR` variable names, and loads them from there every time after. Nothing of yours is in it. No agent may read or write there, and no connector is given it, as with your data folder. Each version unpacks into a folder of its own inside it (about 22 MB); one no version you still use needs can be deleted while DipTick is closed.
+diptick.exe is one file that carries the libraries it draws and stores with. The first time a version starts, it unpacks them into a folder of its own, `%TEMP%\.net\diptick`, or under the folder the `DOTNET_BUNDLE_EXTRACT_BASE_DIR` variable names, and loads them from there every time after. Nothing of yours is in it. No agent may read or write there, and no connector is given it, as with your data folder. Each version unpacks into a folder of its own inside it (about 20 MB); one no version you still use needs can be deleted while DipTick is closed.
 
 ## The Database settings are something else
 

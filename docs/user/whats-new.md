@@ -2,6 +2,11 @@
 
 What each version of DipTick does, the newest first. Each part names the page that says more.
 
+## 1.0.1
+
+- **The MSI alone installs DipTick**: nothing else to fetch or install first. The password check is now part of diptick.exe itself, so the Visual C++ runtime that 1.0.0 needed, and the script that installed it, are gone. See [Your data](your-data) for the libraries diptick.exe does carry.
+- **A password set with 1.0.0 still works.** It is the same Argon2id hash at the same cost, now worked out in DipTick's own code.
+
 ## 1.0.0
 
 The first release. DipTick is a chat with models, one or several at a time, in one program that is a command line, a terminal screen and a window. It keeps your chats on this PC, asks you before an agent does anything you have not allowed, and writes every decision it makes to an audit log you can check. See [Start here](start-here).

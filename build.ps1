@@ -1,22 +1,21 @@
 <#
 .SYNOPSIS
     Builds DipTick: out\diptick.exe, one self-contained file, and out\DipTick-<version>-x64.msi, the
-    installer that puts it in Program Files, with out\Install-DipTick.ps1 beside it.
+    installer that puts it in Program Files.
 
 .DESCRIPTION
-    Three steps, in this order:
+    Two steps, in this order:
 
       1. The .NET SDK publishes src\MVVMC for 64-bit Windows as one file: the program, the .NET
          runtime, and the native libraries it needs (Skia and HarfBuzz for drawing, ANGLE, SQLite,
-         libsodium, Oniguruma), which it unpacks to a folder of its own the first time it starts.
-         Every compiler and analyzer warning is an error (src\MVVMC\DipTick.csproj).
+         Oniguruma), which it unpacks to a folder of its own the first time it starts. Every
+         compiler and analyzer warning is an error (src\MVVMC\DipTick.csproj).
       2. The WiX Toolset's MSBuild SDK builds installer\DipTick.wixproj around it, with LICENSE and
          THIRD-PARTY-NOTICES.txt beside it. WiX 7 runs only once its licence, the Open Source
          Maintenance Fee EULA (docs.firegiant.com/wix/osmf/), is accepted: -AcceptWixEula accepts it
          for this build and stores nothing. Without it, the exe alone is built.
-      3. installer\Install-DipTick.ps1 goes beside the MSI: it installs Microsoft's Visual C++
-         runtime, which libsodium needs, fetched from Microsoft, where a PC has none new enough,
-         and then the MSI.
+
+    Nothing else is needed to install or run DipTick: the MSI alone installs it.
 
     The version is the project's own: Version in src\MVVMC\DipTick.csproj.
 
@@ -88,9 +87,3 @@ if (-not $msi) {
 }
 Copy-Item -LiteralPath $msi -Destination (Join-Path $out $msiName) -Force
 Write-Host ("out\{0}: {1:N1} MB" -f $msiName, ((Get-Item -LiteralPath (Join-Path $out $msiName)).Length / 1MB))
-
-# ---------------------------------------------------------------- 3. the install script
-# It goes beside the MSI: it installs Microsoft's Visual C++ runtime, fetched from Microsoft, on a PC
-# that has none new enough, then the MSI.
-Copy-Item -LiteralPath (Join-Path $root 'installer\Install-DipTick.ps1') -Destination (Join-Path $out 'Install-DipTick.ps1') -Force
-Write-Host 'out\Install-DipTick.ps1'

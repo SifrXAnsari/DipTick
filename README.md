@@ -38,20 +38,11 @@ check.
 
 ## Install
 
-Put `DipTick-1.0.0-x64.msi` and `Install-DipTick.ps1` in one folder, and run the script there:
+Run `DipTick-1.0.1-x64.msi`. It asks Windows for an administrator, then puts `diptick.exe` in
+`C:\Program Files\DipTick`, that folder on PATH, and DipTick on the Start menu. Nothing else is
+needed: diptick.exe carries everything it runs on. A newer MSI replaces an older version in place.
 
-```
-powershell -ExecutionPolicy Bypass -File .\Install-DipTick.ps1
-```
-
-It asks Windows for an administrator. When the PC lacks Microsoft's Visual C++ runtime (14.44 or
-newer), which DipTick's password feature needs, the script downloads Microsoft's installer for it
-from Microsoft, checks that Microsoft signed it, and installs it, under Microsoft's own licence
-terms. Then it installs the MSI: `diptick.exe` in `C:\Program Files\DipTick`, that folder on PATH,
-and DipTick on the Start menu. `-DryRun` installs nothing and says what it would do.
-
-On a PC that already has the runtime, the MSI can be run on its own. Neither the MSI nor the script
-is signed, so Windows may say it does not know the publisher.
+The MSI is not signed, so Windows may say it does not know the publisher.
 
 Uninstalling (Settings > Apps) takes away what the installer put there. Your chats and settings
 stay in your own folders until you delete them: `diptick data` says where they are.
@@ -71,8 +62,7 @@ agent, `/` lists the commands, and Esc three times quits.
 
 On Windows (x64) with the .NET 10 SDK: `.\build.ps1`. It writes `out\diptick.exe`, one
 self-contained file. `.\build.ps1 -AcceptWixEula` also builds `out\DipTick-<version>-x64.msi`
-with the WiX Toolset, which runs only once its licence is accepted, and puts `Install-DipTick.ps1`
-beside it.
+with the WiX Toolset, which runs only once its licence is accepted.
 
 ## Licence
 

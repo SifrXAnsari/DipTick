@@ -1,7 +1,7 @@
 using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
-using NSec.Cryptography;
+using Konscious.Security.Cryptography;
 
 namespace DipTick.Models;
 
@@ -12,9 +12,10 @@ namespace DipTick.Models;
 /// <remarks>
 /// <para>
 /// Cost 64 MiB, 3 passes, parallelism 1. That is above OWASP's floor of m=19456, t=2, p=1
-/// (Password Storage Cheat Sheet, Argon2id). Parallelism is 1 because NSec accepts no other
-/// value (nsec.rocks, Argon2Parameters: "Any value other than 1 is not supported"). The cost is read back
-/// from the stored string, so raising it later does not lock anyone out.
+/// (Password Storage Cheat Sheet, Argon2id). Argon2id is RFC 9106's, computed in C# by
+/// Konscious.Security.Cryptography, so it needs no native library; the same inputs give the same
+/// hash as any other implementation of the RFC. The cost is read back from the stored string, so
+/// raising it later does not lock anyone out.
 /// </para>
 /// <para>
 /// Length: at least 15 characters, which NIST SP 800-63B-4 §3.1.1.2 requires of a password
@@ -88,18 +89,20 @@ internal static class PasswordHash
     /// <summary>Whether a stored value has the shape this class writes.</summary>
     public static bool IsWellFormed(string stored) => TryParse(stored, out _, out _, out _, out _);
 
+    /// <summary>Argon2id of <paramref name="password"/> (UTF-8) with this salt and cost, parallelism 1, no secret and no associated data.</summary>
     private static byte[] Derive(string password, byte[] salt, long memoryKib, long passes)
     {
-        var cost = new Argon2Parameters
-        {
-            DegreeOfParallelism = 1,
-            MemorySize = memoryKib,
-            NumberOfPasses = passes,
-        };
         var bytes = Encoding.UTF8.GetBytes(password);
         try
         {
-            return PasswordBasedKeyDerivationAlgorithm.Argon2id(in cost).DeriveBytes(bytes, salt, HashSize);
+            using var argon2 = new Argon2id(bytes)
+            {
+                Salt = salt,
+                DegreeOfParallelism = 1,
+                MemorySize = checked((int)memoryKib),
+                Iterations = checked((int)passes),
+            };
+            return argon2.GetBytes(HashSize);
         }
         finally
         {
