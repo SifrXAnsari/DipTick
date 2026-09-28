@@ -1,0 +1,973 @@
+{
+  "about": "Every provider DipTick knows, compiled into diptick.exe and changed only with DipTick, by hand, from each provider's own pages. Nothing here is fetched over the network. 'checked' is the day the list was read through, and an entry's own 'checked' the day its pages were read again; 'rechecked' is the newest of those.",
+  "checked": "2026-09-27",
+  "rechecked": "2026-09-28",
+  "providers": [
+    {
+      "id": "ollama", "name": "Ollama", "kind": "local",
+      "about": "runs open models on this PC; free",
+      "address": "http://localhost:11434/v1", "key": "optional",
+      "models": "list", "modelsPage": "https://ollama.com/library",
+      "can": ["vision", "tools"],
+      "wire": ["include-usage"],
+      "sources": ["https://docs.ollama.com/api/openai-compatibility"]
+    },
+    {
+      "id": "lmstudio", "name": "LM Studio", "kind": "local",
+      "about": "a desktop app that runs open models",
+      "address": "http://localhost:1234/v1", "key": "optional",
+      "models": "list", "can": ["vision", "tools"],
+      "sources": ["https://lmstudio.ai/docs/developer/openai-compat"]
+    },
+    {
+      "id": "llamacpp", "name": "llama.cpp (llama-server)", "kind": "local",
+      "about": "the engine many runtimes build on, served by llama-server",
+      "address": "http://127.0.0.1:8080/v1", "key": "optional",
+      "keyHow": "only if you start it with --api-key",
+      "models": "list", "can": ["vision", "tools"],
+      "note": "Images need a projector file (--mmproj); tool calls need --jinja.",
+      "sources": ["https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md"]
+    },
+    {
+      "id": "vllm", "name": "vLLM", "kind": "local",
+      "about": "a high-throughput server for open models",
+      "address": "http://localhost:8000/v1", "key": "optional",
+      "keyHow": "only if you start it with --api-key",
+      "models": "list", "can": ["tools"],
+      "note": "On Windows it runs only in WSL.",
+      "sources": ["https://docs.vllm.ai/en/latest/serving/online_serving/", "https://docs.vllm.ai/en/latest/serving/openai_compatible_server/"]
+    },
+    {
+      "id": "sglang", "name": "SGLang", "kind": "local",
+      "about": "a fast serving engine for open models",
+      "address": "http://localhost:30000/v1", "key": "optional",
+      "models": "try",
+      "sources": ["https://docs.sglang.io/basic_usage/openai_api_completions.html"]
+    },
+    {
+      "id": "localai", "name": "LocalAI", "kind": "local",
+      "about": "one local server for text, images and sound",
+      "address": "http://localhost:8080/v1", "key": "optional",
+      "models": "try", "can": ["vision", "images", "tools"],
+      "sources": ["https://raw.githubusercontent.com/mudler/LocalAI/master/README.md"]
+    },
+    {
+      "id": "jan", "name": "Jan", "kind": "local",
+      "about": "a desktop app with a local API server",
+      "address": "http://127.0.0.1:1337/v1", "key": "optional",
+      "keyHow": "only if you set one in its Local API Server settings",
+      "models": "try",
+      "note": "The desktop app's server uses port 1337; 'jan serve' uses 6767.",
+      "sources": ["https://www.jan.ai/docs/desktop/api-server", "https://www.jan.ai/docs/desktop/cli"]
+    },
+    {
+      "id": "textgen", "name": "text-generation-webui", "kind": "local",
+      "about": "the oobabooga web UI with its API switched on",
+      "address": "http://127.0.0.1:5000/v1", "key": "optional",
+      "keyHow": "only if you start it with --api-key",
+      "models": "list", "can": ["vision", "tools"],
+      "sources": ["https://raw.githubusercontent.com/oobabooga/text-generation-webui/main/docs/12%20-%20OpenAI%20API.md"]
+    },
+    {
+      "id": "koboldcpp", "name": "KoboldCpp", "kind": "local",
+      "about": "one-file runner for open models, with image generation",
+      "address": "http://localhost:5001/v1", "key": "optional",
+      "keyHow": "only if you start it with --password",
+      "models": "list", "can": ["vision", "images"],
+      "sources": ["https://github.com/LostRuins/koboldcpp/wiki"]
+    },
+    {
+      "id": "llamafile", "name": "llamafile", "kind": "local",
+      "about": "a model and its server in one executable",
+      "address": "http://127.0.0.1:8080/v1", "key": "optional",
+      "keyHow": "only if you start it with --api-key",
+      "models": "list",
+      "sources": ["https://docs.mozilla.ai/llamafile/using-llamafile/api"]
+    },
+    {
+      "id": "gpt4all", "name": "GPT4All", "kind": "local",
+      "about": "Nomic's desktop app, with its local API server",
+      "address": "http://localhost:4891/v1", "key": "none",
+      "models": "list",
+      "note": "Switch it on in Settings, Application, Advanced: Enable Local API Server.",
+      "sources": ["https://docs.gpt4all.io/gpt4all_api_server/home.html"]
+    },
+    {
+      "id": "dmr", "name": "Docker Model Runner", "kind": "local",
+      "about": "models run by Docker Desktop",
+      "address": "http://localhost:12434/engines/v1", "key": "none",
+      "models": "list",
+      "note": "Docker Desktop's TCP host access must be on.",
+      "sources": ["https://docs.docker.com/ai/model-runner/api-reference/"]
+    },
+    {
+      "id": "foundrylocal", "name": "Foundry Local", "kind": "local",
+      "about": "Microsoft's runner for models on this PC's CPU, GPU or NPU",
+      "give": "http://localhost:{port}/v1", "key": "none",
+      "models": "try",
+      "note": "In preview. Its port changes each start unless fixed: 'foundry server start --port <n> --idle-timeout 0'; 'foundry server status' shows it.",
+      "sources": ["https://learn.microsoft.com/en-us/azure/foundry-local/reference/reference-cli"]
+    },
+    {
+      "id": "lemonade", "name": "Lemonade", "kind": "local",
+      "about": "AMD's local server for Ryzen AI NPUs and GPUs",
+      "address": "http://localhost:13305/v1", "key": "none",
+      "models": "list", "can": ["images"],
+      "note": "With LEMONADE_API_KEY set, Lemonade wants the key in the address, which DipTick never does; leave it unset.",
+      "sources": ["https://lemonade-server.ai/docs/api/openai/", "https://lemonade-server.ai/docs/guide/"]
+    },
+    {
+      "id": "lmdeploy", "name": "LMDeploy", "kind": "local",
+      "about": "InternLM's serving toolkit",
+      "address": "http://localhost:23333/v1", "key": "optional",
+      "models": "list",
+      "sources": ["https://lmdeploy.readthedocs.io/en/latest/llm/api_server.html"]
+    },
+    {
+      "id": "xinference", "name": "Xinference", "kind": "local",
+      "about": "Xorbits' server for many kinds of models",
+      "address": "http://localhost:9997/v1", "key": "bearer",
+      "keyHow": "a key is required by default since version 3.0",
+      "models": "try",
+      "sources": ["https://inference.readthedocs.io/en/latest/user_guide/auth_system.html", "https://inference.readthedocs.io/en/latest/getting_started/using_xinference.html"]
+    },
+    {
+      "id": "mistralrs", "name": "mistral.rs", "kind": "local",
+      "about": "a fast Rust engine for open models",
+      "address": "http://localhost:1234/v1", "key": "none",
+      "models": "list", "can": ["vision", "tools"],
+      "note": "It uses port 1234 by default, the same as LM Studio.",
+      "sources": ["https://docs.mistralrs.dev/quickstart/"]
+    },
+    {
+      "id": "tabbyapi", "name": "TabbyAPI", "kind": "local",
+      "about": "an ExLlama server for NVIDIA GPUs",
+      "address": "http://127.0.0.1:5000/v1", "key": "bearer",
+      "keyHow": "the key TabbyAPI makes at first start",
+      "models": "try",
+      "sources": ["https://raw.githubusercontent.com/theroyallab/tabbyAPI/main/config_sample.yml", "https://github.com/theroyallab/tabbyAPI/blob/main/common/auth.py"]
+    },
+    {
+      "id": "llamaswap", "name": "llama-swap", "kind": "local",
+      "about": "a proxy that starts and swaps local model servers",
+      "address": "http://localhost:8080/v1", "key": "optional",
+      "models": "list", "can": ["images"],
+      "sources": ["https://raw.githubusercontent.com/mostlygeek/llama-swap/main/README.md"]
+    },
+    {
+      "id": "ovms", "name": "OpenVINO Model Server", "kind": "local",
+      "about": "Intel's model server",
+      "address": "http://localhost:8000/v3", "key": "none",
+      "models": "list",
+      "sources": ["https://raw.githubusercontent.com/openvinotoolkit/model_server/main/docs/clients_genai.md"]
+    },
+    {
+      "id": "nim", "name": "NVIDIA NIM (on this PC)", "kind": "local",
+      "about": "NVIDIA's model containers",
+      "address": "http://localhost:8000/v1", "key": "none",
+      "models": "list",
+      "note": "On Windows only in WSL 2 (Windows 11 23H2 or later, 12 GB of memory), with an RTX 40 or 50 series GPU.",
+      "checked": "2026-09-28",
+      "sources": ["https://docs.nvidia.com/nim/large-language-models/latest/get-started/quickstart.html", "https://docs.nvidia.com/nim/wsl2/latest/getting-started.html"]
+    },
+    {
+      "id": "trtllm", "name": "TensorRT-LLM (trtllm-serve)", "kind": "local",
+      "about": "NVIDIA's optimised serving",
+      "address": "http://localhost:8000/v1", "key": "none",
+      "models": "list",
+      "sources": ["https://nvidia.github.io/TensorRT-LLM/commands/trtllm-serve/trtllm-serve.html"]
+    },
+    {
+      "id": "llamacpppython", "name": "llama-cpp-python", "kind": "local",
+      "about": "llama.cpp's Python server",
+      "address": "http://localhost:8000/v1", "key": "optional",
+      "models": "try", "can": ["vision", "tools"],
+      "sources": ["https://llama-cpp-python.readthedocs.io/en/latest/server/"]
+    },
+    {
+      "id": "mlc", "name": "MLC LLM", "kind": "local",
+      "about": "models compiled for your GPU",
+      "address": "http://127.0.0.1:8000/v1", "key": "none",
+      "models": "list", "can": ["tools"],
+      "sources": ["https://llm.mlc.ai/docs/deploy/rest.html"]
+    },
+    {
+      "id": "openllm", "name": "OpenLLM", "kind": "local",
+      "about": "BentoML's model server",
+      "address": "http://localhost:3000/v1", "key": "none",
+      "models": "try",
+      "sources": ["https://raw.githubusercontent.com/bentoml/OpenLLM/main/README.md"]
+    },
+    {
+      "id": "shimmy", "name": "shimmy", "kind": "local",
+      "about": "a small server for GGUF models",
+      "address": "http://127.0.0.1:11435/v1", "key": "none",
+      "models": "list",
+      "sources": ["https://raw.githubusercontent.com/Michael-A-Kuykendall/shimmy/main/README.md"]
+    },
+    {
+      "id": "litertlm", "name": "LiteRT-LM", "kind": "local",
+      "about": "Google's runtime for on-device models",
+      "address": "http://localhost:9379/v1", "key": "none",
+      "models": "list",
+      "sources": ["https://developers.google.com/edge/litert-lm/cli/openai_server"]
+    },
+    {
+      "id": "fastflowlm", "name": "FastFlowLM", "kind": "local",
+      "about": "models on Ryzen AI NPUs",
+      "address": "http://localhost:52625/v1", "key": "none",
+      "models": "try",
+      "note": "For Ryzen AI chips with an XDNA2 NPU.",
+      "sources": ["https://raw.githubusercontent.com/FastFlowLM/FastFlowLM/main/README.md"]
+    },
+    {
+      "id": "geniex", "name": "GenieX", "kind": "local",
+      "about": "Qualcomm's runner for Snapdragon NPUs",
+      "address": "http://127.0.0.1:18181/v1", "key": "none",
+      "models": "list", "can": ["vision"],
+      "note": "For Snapdragon ARM64 PCs.",
+      "sources": ["https://raw.githubusercontent.com/qualcomm/GenieX/main/docs/en/run/cli/local-server.mdx"]
+    },
+    {
+      "id": "ramalama", "name": "RamaLama", "kind": "local",
+      "about": "models in containers",
+      "address": "http://localhost:8080/v1", "key": "none",
+      "models": "try",
+      "note": "It takes the first free port from 8080 to 8180 unless given --port.",
+      "sources": ["https://raw.githubusercontent.com/containers/ramalama/main/docs/ramalama-serve.1.md"]
+    },
+    {
+      "id": "transformers", "name": "Transformers (transformers serve)", "kind": "local",
+      "about": "Hugging Face's own server",
+      "address": "http://localhost:8000/v1", "key": "none",
+      "models": "list", "can": ["vision"],
+      "sources": ["https://huggingface.co/docs/transformers/main/en/serving"]
+    },
+    {
+      "id": "mlxlm", "name": "MLX-LM", "kind": "local",
+      "about": "Apple's server for Apple silicon",
+      "address": "http://localhost:8080/v1", "key": "none",
+      "models": "list",
+      "note": "Runs on a Mac with Apple silicon, not on Windows.",
+      "sources": ["https://github.com/ml-explore/mlx-lm/blob/main/mlx_lm/SERVER.md"]
+    },
+    {
+      "id": "openwebui", "name": "Open WebUI", "kind": "local",
+      "about": "a chat UI whose API reaches the models it knows",
+      "address": "http://localhost:3000/api", "key": "bearer",
+      "keyHow": "the key in its Settings, Account",
+      "models": "list",
+      "note": "Started with 'open-webui serve' it listens on 8080.",
+      "sources": ["https://docs.openwebui.com/reference/api-endpoints", "https://learn.microsoft.com/en-us/azure/foundry-local/reference/reference-cli"]
+    },
+    {
+      "id": "whispercpp", "name": "whisper.cpp (whisper-server)", "kind": "local",
+      "about": "speech to text on this PC",
+      "shape": "none", "needs": "It does not chat: it turns speech into text through its own /inference request, which DipTick uses with media.speech whispercpp (WAV, FLAC, MP3 and Ogg Vorbis).",
+      "address": "http://127.0.0.1:8080", "key": "none", "models": "typed", "can": ["speech"],
+      "checked": "2026-09-28",
+      "sources": ["https://github.com/ggml-org/whisper.cpp/blob/master/examples/server/README.md", "https://github.com/ggml-org/whisper.cpp/blob/master/examples/server/server.cpp", "https://github.com/ggml-org/whisper.cpp/blob/master/examples/common-whisper.cpp"]
+    },
+    {
+      "id": "sdcpp", "name": "stable-diffusion.cpp (sd-server)", "kind": "local",
+      "about": "images and video on this PC",
+      "shape": "none", "needs": "It does not chat: it makes images through its OpenAI-shaped /v1/images/generations and video through its own /sdcpp/v1/vid_gen, which DipTick uses with media.images sdcpp and media.video sdcpp.",
+      "address": "http://127.0.0.1:1234", "key": "none", "models": "typed", "can": ["images", "video"],
+      "checked": "2026-09-28",
+      "sources": ["https://github.com/leejet/stable-diffusion.cpp/blob/master/examples/server/README.md", "https://github.com/leejet/stable-diffusion.cpp/blob/master/examples/server/api.md"]
+    },
+    {
+      "id": "gemmacpp", "name": "gemma.cpp", "kind": "local",
+      "about": "Google's small engine for Gemma",
+      "shape": "gemini",
+      "address": "http://localhost:8080/v1beta", "key": "none", "models": "list",
+      "note": "Its API server (gemma_api_server) speaks Google's generateContent; text only.",
+      "sources": ["https://raw.githubusercontent.com/google/gemma.cpp/main/API_SERVER_README.md"]
+    },
+    {
+      "id": "comfyui", "name": "ComfyUI", "kind": "local",
+      "about": "node workflows for images and video",
+      "shape": "none", "needs": "It does not chat: it runs your workflows through its own API (/prompt, /history, /view), which DipTick uses with media.images comfyui and media.video comfyui, filling the workflow's {{prompt}}.",
+      "address": "http://127.0.0.1:8188", "key": "none", "models": "typed", "can": ["images", "video"],
+      "checked": "2026-09-28",
+      "sources": ["https://github.com/Comfy-Org/comfy-cli", "https://docs.comfy.org/development/comfyui-server/comms_routes", "https://github.com/comfyanonymous/ComfyUI/blob/master/script_examples/basic_api_example.py", "https://github.com/comfyanonymous/ComfyUI/blob/master/comfy_api/latest/_ui.py"]
+    },
+
+    {
+      "id": "openai", "name": "OpenAI", "kind": "lab",
+      "about": "the GPT models",
+      "address": "https://api.openai.com/v1",
+      "keyPage": "https://platform.openai.com/api-keys", "keyVariable": "OPENAI_API_KEY",
+      "models": "list", "modelsPage": "https://developers.openai.com/api/docs/models",
+      "can": ["vision", "tools", "images", "search"],
+      "keeps": "https://developers.openai.com/api/docs/guides/your-data",
+      "keepsNote": "Not used for training unless you opt in; abuse logs up to 30 days; zero retention by approval.",
+      "wire": ["developer", "max-completion-tokens", "include-usage"],
+      "sources": ["https://developers.openai.com/api/docs/models", "https://developers.openai.com/api/docs/guides/your-data", "https://developers.openai.com/api/reference/resources/chat/subresources/completions/methods/create", "https://developers.openai.com/api/reference/resources/chat/subresources/completions/streaming-events"]
+    },
+    {
+      "id": "anthropic", "name": "Anthropic", "kind": "lab",
+      "about": "the Claude models, from Anthropic itself",
+      "shape": "anthropic", "flavor": "api",
+      "address": "https://api.anthropic.com", "key": "x-api-key",
+      "keyPage": "https://platform.claude.com/settings/keys", "keyVariable": "ANTHROPIC_API_KEY",
+      "models": "list", "can": ["vision", "tools", "search", "pdf"],
+      "keeps": "https://platform.claude.com/docs/en/manage-claude/api-and-data-retention",
+      "keepsNote": "Never used for training without your permission; zero retention by arrangement.",
+      "sources": ["https://platform.claude.com/docs/en/manage-claude/api-and-data-retention", "https://platform.claude.com/docs/en/build-with-claude/overview"]
+    },
+    {
+      "id": "google", "name": "Google Gemini API", "kind": "lab",
+      "about": "Gemini, Imagen and Veo with a key from Google AI Studio",
+      "shape": "gemini",
+      "address": "https://generativelanguage.googleapis.com/v1beta", "key": "x-goog-api-key",
+      "keyPage": "https://aistudio.google.com/apikey", "keyVariable": "GEMINI_API_KEY",
+      "models": "list", "can": ["vision", "tools", "images", "video", "search", "pdf"],
+      "note": "Google's own generateContent, so Gemini 3 and later can search with Google and read pages you name. The key goes in a header, never in an address.",
+      "keeps": "https://ai.google.dev/gemini-api/terms",
+      "keepsNote": "Free use may be read by reviewers and used to improve Google's products; paid use is not, and its logs are kept for a limited time.",
+      "sources": ["https://ai.google.dev/api/generate-content", "https://ai.google.dev/gemini-api/docs/google-search", "https://ai.google.dev/gemini-api/docs/document-processing", "https://ai.google.dev/gemini-api/terms"]
+    },
+    {
+      "id": "mistral", "name": "Mistral AI", "kind": "lab",
+      "about": "Mistral's models, from Paris",
+      "address": "https://api.mistral.ai/v1",
+      "keyPage": "https://console.mistral.ai", "keyVariable": "MISTRAL_API_KEY",
+      "models": "list", "can": ["vision", "tools"],
+      "keeps": "https://help.mistral.ai/en/articles/347628-how-long-do-you-store-my-data",
+      "keepsNote": "Kept 30 days for abuse checks unless zero retention is on; not used for training.",
+      "sources": ["https://docs.mistral.ai/api/", "https://docs.mistral.ai/getting-started/quickstart/", "https://docs.mistral.ai/admin/monitor-comply/zero-data-retention"]
+    },
+    {
+      "id": "xai", "name": "xAI", "kind": "lab",
+      "about": "the Grok models, images and video",
+      "address": "https://api.x.ai/v1",
+      "keyPage": "https://console.x.ai", "keyVariable": "XAI_API_KEY",
+      "models": "list", "can": ["vision", "tools", "images", "video", "search", "pdf"],
+      "note": "xAI calls Chat Completions a legacy endpoint and leads with its Responses API; it still answers.",
+      "keeps": "https://docs.x.ai/developers/faq/security",
+      "keepsNote": "Kept 30 days for auditing; never trained on without your permission; zero retention available.",
+      "sources": ["https://docs.x.ai/docs/overview", "https://docs.x.ai/docs/models", "https://docs.x.ai/developers/rest-api-reference/inference/models", "https://docs.x.ai/developers/model-capabilities/legacy/chat-completions", "https://docs.x.ai/developers/faq/security"]
+    },
+    {
+      "id": "deepseek", "name": "DeepSeek", "kind": "lab",
+      "about": "DeepSeek's models",
+      "address": "https://api.deepseek.com",
+      "keyPage": "https://platform.deepseek.com/api_keys", "keyVariable": "DEEPSEEK_API_KEY",
+      "models": "list", "can": ["vision", "tools"],
+      "keeps": "https://cdn.deepseek.com/policies/en-US/deepseek-privacy-policy.html",
+      "keepsNote": "Stored in China; may be used for training, with a right to opt out.",
+      "sources": ["https://api-docs.deepseek.com/", "https://api-docs.deepseek.com/api/list-models", "https://api-docs.deepseek.com/quick_start/pricing"]
+    },
+    {
+      "id": "moonshot", "name": "Moonshot AI (Kimi)", "kind": "lab",
+      "about": "the Kimi models",
+      "address": "https://api.moonshot.ai/v1",
+      "keyPage": "https://platform.kimi.ai/console/api-keys", "keyVariable": "MOONSHOT_API_KEY",
+      "models": "list", "can": ["vision", "tools", "search"],
+      "keeps": "https://platform.kimi.ai/docs/agreement/userprivacy",
+      "keepsNote": "Content may be used to improve its models; limits only by enterprise arrangement.",
+      "sources": ["https://platform.kimi.ai/docs/guide/start-using-kimi-api", "https://platform.kimi.ai/docs/agreement/userprivacy"]
+    },
+    {
+      "id": "minimax", "name": "MiniMax", "kind": "lab",
+      "about": "the MiniMax models",
+      "address": "https://api.minimax.io/v1",
+      "keyPage": "https://platform.minimax.io/user-center/basic-information/interface-key", "keyVariable": "MINIMAX_API_KEY",
+      "models": "typed", "modelsPage": "https://platform.minimax.io/docs/api-reference/text-openai-api",
+      "can": ["vision", "tools"],
+      "keeps": "https://platform.minimax.io/protocol/privacy-policy",
+      "keepsNote": "Kept by purpose and law, with no fixed period.",
+      "sources": ["https://platform.minimax.io/docs/api-reference/text-openai-api", "https://platform.minimax.io/docs/guides/quickstart-preparation"]
+    },
+    {
+      "id": "zai", "name": "Z.ai (GLM)", "kind": "lab",
+      "about": "the GLM models, images and video",
+      "address": "https://api.z.ai/api/paas/v4",
+      "keyPage": "https://z.ai/manage-apikey/apikey-list", "keyVariable": "ZAI_API_KEY",
+      "models": "typed", "can": ["vision", "images", "video", "search"],
+      "keeps": "https://docs.z.ai/legal-agreement/privacy-policy",
+      "keepsNote": "API content is processed as it comes and not stored.",
+      "sources": ["https://docs.z.ai/guides/overview/quick-start.md", "https://docs.z.ai/llms.txt"]
+    },
+    {
+      "id": "stepfun", "name": "StepFun", "kind": "lab",
+      "about": "the Step models",
+      "address": "https://api.stepfun.ai/v1",
+      "keyPage": "https://platform.stepfun.ai/interface-key", "keyVariable": "STEP_API_KEY",
+      "models": "typed", "can": ["vision"],
+      "keeps": "https://platform.stepfun.ai/docs/en/agreement/userprivacy",
+      "sources": ["https://platform.stepfun.ai/docs/en/overview/quickstart"]
+    },
+    {
+      "id": "cohere", "name": "Cohere", "kind": "lab",
+      "about": "the Command models, through Cohere's compatibility API",
+      "address": "https://api.cohere.ai/compatibility/v1",
+      "keyPage": "https://dashboard.cohere.com/api-keys", "keyVariable": "COHERE_API_KEY",
+      "models": "typed", "can": ["tools"],
+      "keeps": "https://cohere.com/data-usage-policy",
+      "keepsNote": "Deleted after 30 days; zero retention for enterprise.",
+      "sources": ["https://docs.cohere.com/docs/compatibility-api", "https://docs.cohere.com/docs/rate-limits"]
+    },
+    {
+      "id": "perplexity", "name": "Perplexity (Sonar)", "kind": "lab",
+      "about": "answers that search the web and cite it",
+      "address": "https://api.perplexity.ai",
+      "keyPage": "https://console.perplexity.ai/project/keys", "keyVariable": "PERPLEXITY_API_KEY",
+      "models": "fixed", "modelIds": ["sonar", "sonar-pro", "sonar-reasoning-pro", "sonar-deep-research"],
+      "can": ["search"],
+      "keeps": "https://docs.perplexity.ai/docs/resources/privacy-security",
+      "keepsNote": "Nothing sent through Chat Completions is kept or used for training.",
+      "sources": ["https://docs.perplexity.ai/docs/sonar/openai-compatibility", "https://docs.perplexity.ai/llms.txt", "https://docs.perplexity.ai/getting-started/quickstart"]
+    },
+    {
+      "id": "mimo", "name": "Xiaomi MiMo", "kind": "lab",
+      "about": "Xiaomi's MiMo models",
+      "address": "https://api.xiaomimimo.com/v1",
+      "keyPage": "https://platform.xiaomimimo.com/console/balance", "keyVariable": "MIMO_API_KEY",
+      "models": "list", "can": ["tools", "search"],
+      "keeps": "https://platform.xiaomimimo.com/docs/en-US/terms/privacy-policy",
+      "keepsNote": "Inputs and outputs may be used for training unless you opt out in its settings.",
+      "sources": ["https://mimo.mi.com/docs/en-US/api/chat/openai-api"]
+    },
+    {
+      "id": "ai21", "name": "AI21 Labs", "kind": "lab",
+      "about": "the Jamba models",
+      "address": "https://api.ai21.com/studio/v1", "keyVariable": "AI21_API_KEY",
+      "models": "fixed", "modelIds": ["jamba-large", "jamba-mini"],
+      "note": "Its answers stream as OpenAI's do (choices[0].delta.content, then data: [DONE]), but only without tools, so DipTick offers it none.",
+      "keeps": "https://www.ai21.com/terms-policies/privacy-policy/",
+      "checked": "2026-09-28",
+      "sources": ["https://docs.ai21.com/reference/jamba-1-6-api-ref", "https://docs.ai21.com/reference/jamba-api-response", "https://docs.ai21.com/llms.txt"]
+    },
+
+    {
+      "id": "groq", "name": "Groq", "kind": "host",
+      "about": "open models on its own fast chips",
+      "address": "https://api.groq.com/openai/v1",
+      "keyPage": "https://console.groq.com/keys", "keyVariable": "GROQ_API_KEY",
+      "models": "list", "modelsPage": "https://console.groq.com/docs/models",
+      "can": ["vision", "tools", "search"],
+      "keeps": "https://console.groq.com/docs/your-data",
+      "keepsNote": "Not kept by default; up to 30 days for abuse checks; zero retention in Data Controls.",
+      "sources": ["https://console.groq.com/docs/openai", "https://console.groq.com/docs/models", "https://console.groq.com/docs/your-data"]
+    },
+    {
+      "id": "together", "name": "Together AI", "kind": "host",
+      "about": "hundreds of open models",
+      "address": "https://api.together.ai/v1",
+      "keyPage": "https://api.together.ai/settings/projects/~current/api-keys", "keyVariable": "TOGETHER_API_KEY",
+      "models": "list", "can": ["vision", "tools", "images"],
+      "keeps": "https://docs.together.ai/docs/privacy-and-security",
+      "keepsNote": "Kept by default; switch storage off for zero retention; training use is off unless you opt in.",
+      "sources": ["https://docs.together.ai/docs/openai-api-compatibility"]
+    },
+    {
+      "id": "fireworks", "name": "Fireworks AI", "kind": "host",
+      "about": "fast open models",
+      "address": "https://api.fireworks.ai/inference/v1",
+      "keyPage": "https://app.fireworks.ai/settings/users/api-keys", "keyVariable": "FIREWORKS_API_KEY",
+      "models": "typed", "modelsPage": "https://fireworks.ai/models", "can": ["vision"],
+      "keeps": "https://docs.fireworks.ai/guides/security_compliance/data_handling",
+      "keepsNote": "Open models: nothing logged or stored unless you opt in.",
+      "sources": ["https://docs.fireworks.ai/tools-sdks/openai-compatibility", "https://docs.fireworks.ai/getting-started/quickstart"]
+    },
+    {
+      "id": "deepinfra", "name": "DeepInfra", "kind": "host",
+      "about": "open models at low prices",
+      "address": "https://api.deepinfra.com/v1/openai",
+      "keyPage": "https://docs.deepinfra.com/account/authentication.md", "keyVariable": "DEEPINFRA_API_KEY",
+      "models": "list", "can": ["vision", "tools", "images", "video"],
+      "keeps": "https://docs.deepinfra.com/account/data-privacy.md",
+      "sources": ["https://docs.deepinfra.com/llms.txt"]
+    },
+    {
+      "id": "nebius", "name": "Nebius Token Factory", "kind": "host",
+      "about": "open models in EU and US data centres",
+      "address": "https://api.tokenfactory.nebius.com/v1",
+      "keyPage": "https://tokenfactory.nebius.com", "keyVariable": "NEBIUS_API_KEY",
+      "models": "list", "can": ["vision", "tools", "images"],
+      "keeps": "https://docs.tokenfactory.nebius.com/legal/legal-quick-guide",
+      "keepsNote": "Kept to speed up answers unless zero retention is on; never used for training.",
+      "sources": ["https://docs.tokenfactory.nebius.com/", "https://docs.tokenfactory.nebius.com/llms.txt"]
+    },
+    {
+      "id": "novita", "name": "Novita AI", "kind": "host",
+      "about": "open models and GPUs",
+      "address": "https://api.novita.ai/openai",
+      "keyPage": "https://docs.novita.ai/guides/llm-api-keys", "keyVariable": "NOVITA_API_KEY",
+      "models": "try", "modelsPage": "https://novita.ai/models",
+      "keeps": "https://novita.ai/legal/privacy-policy",
+      "sources": ["https://docs.novita.ai/guides/llm-api"]
+    },
+    {
+      "id": "baseten", "name": "Baseten", "kind": "host",
+      "about": "its Model APIs for open models",
+      "address": "https://inference.baseten.co/v1",
+      "keyPage": "https://app.baseten.co", "keyVariable": "BASETEN_API_KEY",
+      "models": "typed", "can": ["vision", "tools"],
+      "keeps": "https://www.baseten.co/security-practices/",
+      "keepsNote": "Model APIs keep no inputs or outputs.",
+      "sources": ["https://docs.baseten.co/reference/inference-api/chat-completions.md"]
+    },
+    {
+      "id": "cerebras", "name": "Cerebras", "kind": "host",
+      "about": "open models on wafer-scale chips",
+      "address": "https://api.cerebras.ai/v1",
+      "keyPage": "https://cloud.cerebras.ai", "keyVariable": "CEREBRAS_API_KEY",
+      "models": "typed", "can": ["vision", "tools"],
+      "keeps": "https://www.cerebras.ai/privacy-policy",
+      "keepsNote": "Inference inputs and outputs are not kept.",
+      "sources": ["https://inference-docs.cerebras.ai/resources/openai"]
+    },
+    {
+      "id": "sambanova", "name": "SambaNova Cloud", "kind": "host",
+      "about": "open models on its own chips",
+      "address": "https://api.sambanova.ai/v1",
+      "keyPage": "https://cloud.sambanova.ai/apis", "keyVariable": "SAMBANOVA_API_KEY",
+      "models": "typed", "can": ["tools"],
+      "keeps": "https://sambanova.ai/privacy-policy",
+      "sources": ["https://docs.sambanova.ai/docs/en/get-started/api-keys-urls", "https://docs.sambanova.ai/docs/en/features/openai-compatibility"]
+    },
+    {
+      "id": "friendli", "name": "FriendliAI", "kind": "host",
+      "about": "its serverless endpoints for open models",
+      "address": "https://api.friendli.ai/serverless/v1",
+      "keyPage": "https://friendli.ai/suite/~/setting/keys", "keyVariable": "FRIENDLI_TOKEN",
+      "models": "typed",
+      "keeps": "https://friendli.ai/docs/guides/data-handling",
+      "keepsNote": "Not shared and not used for training.",
+      "sources": ["https://friendli.ai/docs/guides/serverless_endpoints/openai-compatibility"]
+    },
+    {
+      "id": "featherless", "name": "Featherless", "kind": "host",
+      "about": "thousands of open models for a flat fee",
+      "address": "https://api.featherless.ai/v1",
+      "keyPage": "https://featherless.ai/account/api-keys", "keyVariable": "FEATHERLESS_API_KEY",
+      "models": "list",
+      "keeps": "https://featherless.ai/docs/privacy-and-logging",
+      "keepsNote": "Does not log prompts or completions.",
+      "sources": ["https://featherless.ai/docs/api-overview-and-common-options", "https://featherless.ai/docs/privacy-and-logging"]
+    },
+    {
+      "id": "nscale", "name": "Nscale", "kind": "host",
+      "about": "serverless open models",
+      "address": "https://inference.api.nscale.com/v1", "keyVariable": "NSCALE_API_KEY",
+      "keyHow": "a service token from the Nscale console (Settings, Service Tokens), sent as a bearer token",
+      "models": "list", "can": ["vision", "tools", "images"],
+      "note": "Its documentation (docs.nscale.com) gives chat completions with tools, images through /v1/images/generations (media.images nscale, with the model you name), and its models through /v1/models; its model list names vision models too.",
+      "keeps": "https://www.nscale.com/blog/serverless-ai-done-right-fast-flexible-and-always-yours-with-nscale",
+      "keepsNote": "Requests are never logged or trained on.",
+      "checked": "2026-09-28",
+      "sources": ["https://docs.nscale.com/api-reference/inference/create-chat-completion", "https://docs.nscale.com/docs/use-cases/chat.md", "https://docs.nscale.com/api-reference/inference/create-image.md", "https://docs.nscale.com/api-reference/models/list-models.md", "https://docs.nscale.com/docs/manage/service-tokens.md", "https://docs.nscale.com/docs/ai-services/models.md"]
+    },
+    {
+      "id": "scaleway", "name": "Scaleway Generative APIs", "kind": "host",
+      "about": "open models in Europe",
+      "address": "https://api.scaleway.ai/v1",
+      "keyPage": "https://www.scaleway.com/en/docs/iam/credentials/create-api-keys/", "keyVariable": "SCW_SECRET_KEY",
+      "models": "list", "can": ["vision", "tools"],
+      "keeps": "https://www.scaleway.com/en/docs/generative-apis/reference-content/data-privacy/",
+      "keepsNote": "Not used for training; usage figures, not content, kept up to 6 months.",
+      "sources": ["https://www.scaleway.com/en/docs/generative-apis/how-to/query-language-models/", "https://www.scaleway.com/en/docs/generative-apis/api-cli/using-models-api/"]
+    },
+    {
+      "id": "ovhcloud", "name": "OVHcloud AI Endpoints", "kind": "host",
+      "about": "open models in Europe",
+      "address": "https://oai.endpoints.kepler.ai.cloud.ovh.net/v1", "keyVariable": "AI_ENDPOINT_API_KEY",
+      "keyHow": "OVHcloud Manager: your Public Cloud project, AI & Machine Learning, AI Endpoints",
+      "models": "typed", "can": ["vision"],
+      "keeps": "https://docs.ovhcloud.com/en/guides/public-cloud/ai-machine-learning/ai-endpoints-getting-started",
+      "keepsNote": "It does not store user data.",
+      "sources": ["https://docs.ovhcloud.com/en/guides/public-cloud/ai-machine-learning/ai-endpoints-responses-api", "https://docs.ovhcloud.com/en/guides/public-cloud/ai-machine-learning/ai-endpoints-getting-started"]
+    },
+    {
+      "id": "nvidia", "name": "NVIDIA API catalog", "kind": "host",
+      "about": "models NVIDIA hosts at build.nvidia.com",
+      "address": "https://integrate.api.nvidia.com/v1",
+      "keyPage": "https://build.nvidia.com", "keyVariable": "NVIDIA_API_KEY",
+      "models": "typed",
+      "note": "Its terms are for trial use, not production.",
+      "keeps": "https://assets.ngc.nvidia.com/products/api-catalog/legal/NVIDIA%20API%20Trial%20Terms%20of%20Service.pdf",
+      "sources": ["https://docs.api.nvidia.com/nim/reference/llm-apis", "https://docs.api.nvidia.com/nim/docs/api-quickstart"]
+    },
+    {
+      "id": "chutes", "name": "Chutes", "kind": "host",
+      "about": "serverless open models, some in trusted hardware",
+      "give": "https://{chute-host}/v1", "keyVariable": "CHUTES_API_KEY",
+      "keyHow": "an API key (cpk_...) from the Chutes dashboard or its CLI",
+      "models": "try",
+      "keeps": "https://chutes.ai/privacy",
+      "keepsNote": "Public models: prompts and outputs are not logged.",
+      "sources": ["https://chutes.ai/docs/getting-started/authentication", "https://chutes.ai/docs/examples/llm-chat"]
+    },
+    {
+      "id": "siliconflow", "name": "SiliconFlow", "kind": "host",
+      "about": "open models and image models",
+      "address": "https://api.siliconflow.com/v1",
+      "keyPage": "https://cloud.siliconflow.com/account/ak", "keyVariable": "SILICONFLOW_API_KEY",
+      "models": "typed", "modelsPage": "https://cloud.siliconflow.com/models", "can": ["images"],
+      "keeps": "https://docs.siliconflow.com/en/legals/privacy-policy",
+      "sources": ["https://docs.siliconflow.com/en/userguide/quickstart"]
+    },
+    {
+      "id": "vultr", "name": "Vultr Serverless Inference", "kind": "host",
+      "about": "open models on Vultr's cloud",
+      "address": "https://api.vultrinference.com/v1", "keyVariable": "VULTR_SERVERLESS_INFERENCE_API_KEY",
+      "keyHow": "a key from the Vultr Cloud Inference console",
+      "models": "typed",
+      "note": "Its model list lives at /v1/chat/models, not /v1/models.",
+      "keeps": "https://www.vultr.com/legal/privacy/",
+      "keepsNote": "Inference data is not used for training.",
+      "sources": ["https://docs.vultr.com/how-to-use-vultr-cloud-inference-in-python"]
+    },
+    {
+      "id": "runpod", "name": "RunPod Serverless", "kind": "host",
+      "about": "your own vLLM endpoint on RunPod",
+      "give": "https://api.runpod.ai/v2/{runpod-endpoint}/openai/v1", "keyVariable": "RUNPOD_API_KEY",
+      "keyHow": "RUNPOD_API_KEY from the RunPod console",
+      "models": "list",
+      "keeps": "https://docs.runpod.io/references/security-and-compliance",
+      "sources": ["https://docs.runpod.io/serverless/vllm/openai-compatibility"]
+    },
+    {
+      "id": "modal", "name": "Modal", "kind": "host",
+      "about": "a model server you deploy on Modal",
+      "give": "https://{modal-host}/v1", "key": "optional",
+      "keyHow": "whatever your deployment asks; Modal's vLLM example asks none",
+      "models": "try",
+      "keeps": "https://modal.com/docs/guide/security",
+      "keepsNote": "Inference endpoints write no payloads; function data is deleted within 7 days.",
+      "sources": ["https://modal.com/docs/examples/vllm_inference", "https://modal.com/docs/guide/webhook-urls"]
+    },
+    {
+      "id": "ollamacloud", "name": "Ollama Cloud", "kind": "host",
+      "about": "Ollama's hosted models",
+      "address": "https://ollama.com/v1",
+      "keyPage": "https://ollama.com/settings/keys", "keyVariable": "OLLAMA_API_KEY",
+      "models": "list", "can": ["vision", "tools"],
+      "keeps": "https://ollama.com/privacy",
+      "keepsNote": "Not used to train models.",
+      "sources": ["https://docs.ollama.com/cloud", "https://docs.ollama.com/api/openai-compatibility"]
+    },
+    {
+      "id": "fal", "name": "fal (OpenRouter router)", "kind": "host",
+      "about": "chat models through fal's OpenRouter router",
+      "address": "https://fal.run/openrouter/router/openai/v1", "key": "key", "keyVariable": "FAL_KEY",
+      "keyHow": "FAL_KEY from your fal dashboard",
+      "models": "typed", "modelsPage": "https://fal.ai/models/openrouter/router",
+      "note": "fal sends its key as 'Authorization: Key', and DipTick does the same for it. Its image and video models go through its own queue API (queue.fal.run), with media.images fal or media.video fal and the model you name; the key goes only to fal's own hosts.",
+      "keeps": "https://docs.fal.ai/model-apis/payloads",
+      "keepsNote": "Inputs and outputs are stored by default so they can be fetched later.",
+      "checked": "2026-09-28",
+      "sources": ["https://fal.ai/models/openrouter/router/openai/v1/chat/completions/llms.txt", "https://fal.ai/docs/model-apis/model-endpoints/queue", "https://fal.ai/models/fal-ai/flux/schnell/api"]
+    },
+    {
+      "id": "replicate", "name": "Replicate", "kind": "host",
+      "about": "thousands of models, many of them for images and video",
+      "shape": "none", "needs": "It does not chat: Replicate \"does not offer an OpenAI-compatible chat completions endpoint\". Its predictions API makes images and video, which DipTick uses with media.images replicate or media.video replicate and the model you name (owner/name).",
+      "address": "https://api.replicate.com/v1", "keyVariable": "REPLICATE_API_TOKEN",
+      "models": "typed", "can": ["images", "video"],
+      "keeps": "https://replicate.com/docs/topics/predictions/data-retention",
+      "keepsNote": "API inputs and outputs are removed after an hour.",
+      "checked": "2026-09-28",
+      "sources": ["https://replicate.com/docs/reference/http"]
+    },
+    {
+      "id": "wavespeed", "name": "WaveSpeedAI", "kind": "host",
+      "about": "image and video models",
+      "shape": "none", "needs": "It does not chat: it makes images and video through its own API, which DipTick uses with media.images wavespeed or media.video wavespeed and the model you name (like wavespeed-ai/flux-dev).",
+      "address": "https://api.wavespeed.ai/api/v3", "key": "bearer", "keyVariable": "WAVESPEED_API_KEY",
+      "models": "typed", "can": ["images", "video"],
+      "keeps": "https://wavespeed.ai/docs/data-retention-policy",
+      "keepsNote": "Outputs are deleted after 7 days; prompts are not kept long, and outputs are not used for training.",
+      "checked": "2026-09-28",
+      "sources": ["https://wavespeed.ai/docs/submit-task", "https://wavespeed.ai/docs/get-result", "https://wavespeed.ai/docs/data-retention-policy"]
+    },
+    {
+      "id": "inferless", "name": "Inferless", "kind": "host",
+      "about": "serverless GPUs for your own models",
+      "shape": "openinference",
+      "give": "{address}", "keyVariable": "INFERLESS_API_KEY",
+      "keyHow": "a workspace API key from Inferless's settings (Workspace API keys), sent as a bearer token",
+      "models": "typed",
+      "note": "Give the model's own inference address, as its API tab shows it (…/v2/models/<model>/versions/1/infer). DipTick sends one prompt, in the input 'prompt', and reads the answer from 'generated_text' or the first text output, as Inferless's own templates do; no tools, no files. Its team joined Baseten on 2026-03-09, with no word on the platform's future.",
+      "keepsNote": "Not documented: it runs your own deployment of your own model.",
+      "checked": "2026-09-28",
+      "sources": ["https://docs.inferless.com/api-reference/model-endpoint/inferless-python-client.md", "https://github.com/kserve/open-inference-protocol/blob/main/specification/protocol/inference_rest.md", "https://github.com/inferless/mistral-7b-instruct-v0.3", "https://www.baseten.co/blog/announcing-the-acquihire-of-inferless-by-baseten/"]
+    },
+
+    {
+      "id": "azure", "name": "Azure OpenAI (Microsoft Foundry)", "kind": "cloud",
+      "about": "OpenAI's and other makers' models in your Azure resource",
+      "give": "https://{azure-resource}.openai.azure.com/openai/v1", "key": "api-key", "keyVariable": "AZURE_OPENAI_API_KEY",
+      "keyHow": "your resource's key, shown with your deployment in the Foundry portal",
+      "models": "typed", "can": ["images", "video"],
+      "note": "The model is your deployment's name. Microsoft recommends its Responses API for OpenAI's models; Chat Completions still answers.",
+      "keeps": "https://learn.microsoft.com/en-us/azure/foundry/responsible-ai/openai/data-privacy",
+      "keepsNote": "Kept 30 days for abuse checks unless modified monitoring is approved; not used for training.",
+      "wire": ["developer", "max-completion-tokens"],
+      "sources": ["https://learn.microsoft.com/en-us/azure/foundry/openai/api-version-lifecycle", "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/reasoning"]
+    },
+    {
+      "id": "foundryclaude", "name": "Claude in Microsoft Foundry", "kind": "cloud",
+      "about": "Claude through your Azure resource, billed by Azure",
+      "shape": "anthropic", "flavor": "foundry",
+      "give": "https://{azure-resource}.services.ai.azure.com/anthropic", "key": "x-api-key", "keyVariable": "ANTHROPIC_FOUNDRY_API_KEY",
+      "keyHow": "the Key on your deployment's Details tab in the Foundry portal",
+      "models": "fixed", "modelIds": ["claude-fable-5-1", "claude-fable-5", "claude-opus-5-5", "claude-opus-5", "claude-opus-4-8", "claude-opus-4-7", "claude-opus-4-6", "claude-opus-4-5", "claude-sonnet-5", "claude-sonnet-4-6", "claude-sonnet-4-5", "claude-haiku-4-5"],
+      "can": ["vision", "tools", "search", "pdf"],
+      "note": "The model is your deployment's name; by default it matches the model's ID.",
+      "keeps": "https://platform.claude.com/docs/en/build-with-claude/claude-in-microsoft-foundry",
+      "keepsNote": "Anthropic's data use terms apply; deployments hosted on Azure keep prompts within Azure.",
+      "sources": ["https://platform.claude.com/docs/en/build-with-claude/claude-in-microsoft-foundry", "https://platform.claude.com/docs/en/build-with-claude/vision", "https://platform.claude.com/docs/en/build-with-claude/pdf-support"]
+    },
+    {
+      "id": "bedrock", "name": "Amazon Bedrock", "kind": "cloud",
+      "about": "open-weight models on AWS, with a Bedrock API key",
+      "give": "https://bedrock-mantle.{aws-region}.api.aws/v1", "keyVariable": "AWS_BEARER_TOKEN_BEDROCK",
+      "keyPage": "https://docs.aws.amazon.com/bedrock/latest/userguide/api-keys-use.html",
+      "models": "list",
+      "note": "Through Bedrock's OpenAI-compatible Mantle endpoint, which lists its models; Claude on Bedrock is its own entry.",
+      "keeps": "https://docs.aws.amazon.com/bedrock/latest/userguide/data-retention.html",
+      "keepsNote": "Prompts and completions are not stored or logged, and not used for training.",
+      "sources": ["https://docs.aws.amazon.com/bedrock/latest/userguide/inference-chat-completions.html", "https://docs.aws.amazon.com/bedrock/latest/userguide/api-keys-use.html"]
+    },
+    {
+      "id": "bedrockclaude", "name": "Claude in Amazon Bedrock", "kind": "cloud",
+      "about": "Claude on AWS-run servers, billed by AWS",
+      "shape": "anthropic", "flavor": "bedrock",
+      "give": "https://bedrock-mantle.{aws-region}.api.aws/anthropic", "key": "x-api-key", "keyVariable": "AWS_BEARER_TOKEN_BEDROCK",
+      "keyHow": "a short-term Bedrock bearer token (aws-bedrock-token-generator), 12 hours at most",
+      "models": "fixed", "modelIds": ["anthropic.claude-fable-5-1", "anthropic.claude-fable-5", "anthropic.claude-opus-5-5", "anthropic.claude-opus-5", "anthropic.claude-opus-4-8", "anthropic.claude-opus-4-7", "anthropic.claude-sonnet-5", "anthropic.claude-haiku-4-5"],
+      "can": ["vision", "tools", "pdf"],
+      "note": "Bedrock has no web search, structured outputs or server-side fallback for Claude.",
+      "keeps": "https://docs.aws.amazon.com/bedrock/latest/userguide/data-protection.html",
+      "keepsNote": "Governed by Amazon Bedrock: prompts and completions are not stored or used for training.",
+      "sources": ["https://platform.claude.com/docs/en/build-with-claude/claude-in-amazon-bedrock", "https://platform.claude.com/docs/en/build-with-claude/vision", "https://platform.claude.com/docs/en/build-with-claude/pdf-support"]
+    },
+    {
+      "id": "awsclaude", "name": "Claude Platform on AWS", "kind": "cloud",
+      "about": "Anthropic's own platform, billed through AWS Marketplace",
+      "shape": "anthropic", "flavor": "aws",
+      "give": "https://aws-external-anthropic.{aws-region}.api.aws", "key": "x-api-key", "keyVariable": "ANTHROPIC_AWS_API_KEY",
+      "keyHow": "AWS Console: Claude Platform on AWS, API keys; and your workspace ID (wrkspc_...)",
+      "models": "list", "can": ["vision", "tools", "search", "pdf"],
+      "note": "Every call names your workspace: set its workspace setting to your wrkspc_ ID.",
+      "keeps": "https://platform.claude.com/docs/en/manage-claude/api-and-data-retention",
+      "keepsNote": "Anthropic processes and stores it, on AWS.",
+      "sources": ["https://platform.claude.com/docs/en/build-with-claude/claude-platform-on-aws"]
+    },
+    {
+      "id": "vertex", "name": "Google Cloud Vertex AI", "kind": "cloud",
+      "about": "Gemini and the open models Google hosts, in your Google Cloud project",
+      "give": "https://{google-host}/v1/projects/{project}/locations/{location}/endpoints/openapi", "key": "google-cloud",
+      "keyHow": "your Google Cloud sign-in: 'gcloud auth application-default login', or GOOGLE_APPLICATION_CREDENTIALS naming a service account's key file",
+      "models": "typed", "modelsPage": "https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/start/openai",
+      "can": ["vision", "tools", "images"],
+      "note": "Google now calls it the Gemini Enterprise Agent Platform. Models are named like google/gemini-3.5-flash. Its tokens last an hour; DipTick renews them.",
+      "keeps": "https://cloud.google.com/vertex-ai/generative-ai/docs/data-governance",
+      "keepsNote": "Gemini caches inputs up to 24 hours unless caching is switched off; prompts may be logged for abuse checks.",
+      "sources": ["https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/start/openai", "https://docs.cloud.google.com/docs/authentication/application-default-credentials"]
+    },
+    {
+      "id": "vertexclaude", "name": "Claude on Google Cloud", "kind": "cloud",
+      "about": "Claude in your Google Cloud project, billed by Google",
+      "shape": "anthropic", "flavor": "vertex",
+      "give": "https://{google-host}/v1/projects/{project}/locations/{location}", "key": "google-cloud",
+      "keyHow": "your Google Cloud sign-in: 'gcloud auth application-default login', or GOOGLE_APPLICATION_CREDENTIALS naming a service account's key file",
+      "models": "fixed", "modelIds": ["claude-fable-5-1", "claude-fable-5", "claude-opus-5-5", "claude-opus-5", "claude-opus-4-8", "claude-opus-4-7", "claude-opus-4-6", "claude-opus-4-5@20251101", "claude-sonnet-5", "claude-sonnet-4-6", "claude-sonnet-4-5@20250929", "claude-haiku-4-5@20251001"],
+      "can": ["vision", "tools", "search", "pdf"],
+      "note": "Location global is Anthropic's recommendation; us and eu keep traffic in one area; single regions serve Sonnet 4.6 and older.",
+      "keeps": "https://cloud.google.com/vertex-ai/generative-ai/docs/data-governance",
+      "keepsNote": "Governed by Google Cloud.",
+      "sources": ["https://platform.claude.com/docs/en/build-with-claude/claude-on-vertex-ai", "https://platform.claude.com/docs/en/api/sdks/csharp", "https://platform.claude.com/docs/en/build-with-claude/vision", "https://platform.claude.com/docs/en/build-with-claude/pdf-support"]
+    },
+    {
+      "id": "vertexexpress", "name": "Vertex AI express mode", "kind": "cloud",
+      "about": "Vertex AI with an API key instead of a sign-in",
+      "shape": "gemini",
+      "address": "https://aiplatform.googleapis.com/v1/publishers/google", "key": "x-goog-api-key",
+      "keyHow": "the API key from APIs & Services, Credentials, in the Google Cloud console in express mode",
+      "models": "typed", "modelsPage": "https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/start/express-mode/overview",
+      "can": ["vision", "tools", "search", "pdf"],
+      "note": "Google's generateContent at the global address, with the key in a header (Google's own example puts it in the address, which DipTick never does). Gemini 3 and later can search with Google.",
+      "keeps": "https://cloud.google.com/vertex-ai/generative-ai/docs/data-governance",
+      "sources": ["https://docs.cloud.google.com/gemini-enterprise-agent-platform/reference/express-mode/api-reference", "https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/start/express-mode/overview", "https://docs.cloud.google.com/docs/authentication/api-keys-use"]
+    },
+    {
+      "id": "cloudflare", "name": "Cloudflare Workers AI", "kind": "cloud",
+      "about": "open models on Cloudflare's network",
+      "give": "https://api.cloudflare.com/client/v4/accounts/{cloudflare-account}/ai/v1", "keyVariable": "CLOUDFLARE_API_TOKEN",
+      "keyPage": "https://dash.cloudflare.com/profile/api-tokens",
+      "models": "typed",
+      "keeps": "https://developers.cloudflare.com/workers-ai/platform/data-usage/",
+      "keepsNote": "Not used for training; not stored unless you use one of its storage services.",
+      "sources": ["https://developers.cloudflare.com/workers-ai/configuration/open-ai-compatibility/", "https://developers.cloudflare.com/fundamentals/api/get-started/create-token/"]
+    },
+    {
+      "id": "databricks", "name": "Databricks", "kind": "cloud",
+      "about": "models served in your Databricks workspace",
+      "give": "https://{databricks-host}/ai-gateway/mlflow/v1", "keyVariable": "DATABRICKS_TOKEN",
+      "keyHow": "a Databricks token (dapi-...)",
+      "models": "typed",
+      "keeps": "https://docs.databricks.com/aws/en/machine-learning/foundation-model-apis/compliance",
+      "keepsNote": "Not used for training; may be held a while for abuse checks.",
+      "sources": ["https://docs.databricks.com/aws/en/machine-learning/model-serving/query-chat-models"]
+    },
+    {
+      "id": "digitalocean", "name": "DigitalOcean Serverless Inference", "kind": "cloud",
+      "about": "open and commercial models on DigitalOcean",
+      "address": "https://inference.do-ai.run/v1", "keyVariable": "DIGITALOCEAN_MODEL_ACCESS_KEY",
+      "keyHow": "a model access key from the DigitalOcean Control Panel",
+      "models": "list", "can": ["images"],
+      "keeps": "https://docs.digitalocean.com/products/inference/details/data-privacy/",
+      "keepsNote": "It does not store inputs or outputs.",
+      "sources": ["https://docs.digitalocean.com/products/inference/how-to/si-endpoints/"]
+    },
+    {
+      "id": "heroku", "name": "Heroku Managed Inference", "kind": "cloud",
+      "about": "models attached to a Heroku app",
+      "give": "https://{heroku-region}.inference.heroku.com/v1", "keyVariable": "INFERENCE_KEY",
+      "keyHow": "the add-on's INFERENCE_KEY config var",
+      "models": "typed", "can": ["tools", "images"],
+      "note": "Its region is the start of the add-on's INFERENCE_URL: us or eu.",
+      "keeps": "https://devcenter.heroku.com/articles/heroku-inference",
+      "keepsNote": "Prompts are not stored, logged or used for training.",
+      "sources": ["https://devcenter.heroku.com/articles/heroku-inference"]
+    },
+    {
+      "id": "snowflake", "name": "Snowflake Cortex", "kind": "cloud",
+      "about": "models inside your Snowflake account",
+      "give": "https://{snowflake-account}.snowflakecomputing.com/api/v2/cortex/v1", "keyVariable": "SNOWFLAKE_PAT",
+      "keyHow": "a Snowflake programmatic access token",
+      "models": "typed", "can": ["vision", "tools"],
+      "keeps": "https://www.snowflake.com/en/legal/compliance/snowflake-ai-trust-and-safety/",
+      "keepsNote": "Runs inside Snowflake; not used to train models for others.",
+      "sources": ["https://docs.snowflake.com/en/user-guide/snowflake-cortex/open_ai_sdk", "https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-rest-api"]
+    },
+    {
+      "id": "oci", "name": "Oracle OCI Generative AI", "kind": "cloud",
+      "about": "models in your Oracle Cloud tenancy",
+      "give": "https://inference.generativeai.{oci-region}.oci.oraclecloud.com/openai/v1", "keyVariable": "OCI_GENAI_API_KEY",
+      "keyPage": "https://docs.oracle.com/en-us/iaas/Content/generative-ai/api-keys.htm",
+      "models": "typed",
+      "keeps": "https://docs.oracle.com/en-us/iaas/Content/generative-ai/data-handling.htm",
+      "keepsNote": "Inference inputs and outputs are not stored.",
+      "sources": ["https://docs.oracle.com/en-us/iaas/Content/generative-ai/oci-openai.htm", "https://docs.oracle.com/en-us/iaas/Content/generative-ai/chat-completions-api.htm", "https://docs.oracle.com/en-us/iaas/Content/generative-ai/openai-compatible-api.htm"]
+    },
+    {
+      "id": "watsonx", "name": "IBM watsonx.ai model gateway", "kind": "cloud",
+      "about": "the providers you connect to watsonx, behind one address",
+      "give": "https://{watsonx-host}/ml/gateway/v1", "keyVariable": "IBM_CLOUD_APIKEY",
+      "keyHow": "an IBM Cloud API key",
+      "models": "list",
+      "note": "In preview; connect its providers in watsonx first.",
+      "keeps": "https://dataplatform.cloud.ibm.com/docs/content/wsj/analyze-data/fm-security.html?context=wx",
+      "keepsNote": "Stateless: prompts are not stored.",
+      "sources": ["https://dataplatform.cloud.ibm.com/docs/content/wsj/analyze-data/fm-model-gateway-use.html?context=wx"]
+    },
+    {
+      "id": "alibaba", "name": "Alibaba Cloud Model Studio (Qwen)", "kind": "cloud",
+      "about": "the Qwen models and others",
+      "give": "https://{alibaba-host}/compatible-mode/v1", "keyVariable": "DASHSCOPE_API_KEY",
+      "keyPage": "https://modelstudio.console.alibabacloud.com/model/settings/api-key",
+      "models": "typed", "can": ["vision", "tools"],
+      "note": "Its address depends on the region: dashscope-us.aliyuncs.com for the US, <workspace>.ap-southeast-1.maas.aliyuncs.com for Singapore, <workspace>.cn-beijing.maas.aliyuncs.com for Beijing.",
+      "keeps": "https://www.alibabacloud.com/help/en/model-studio/privacy-notice",
+      "keepsNote": "Never used for model training.",
+      "sources": ["https://www.alibabacloud.com/help/en/model-studio/compatibility-of-openai-with-dashscope"]
+    },
+    {
+      "id": "tokenhub", "name": "Tencent Cloud TokenHub", "kind": "cloud",
+      "about": "Hunyuan, DeepSeek, GLM, Kimi, MiniMax and MiMo behind one key",
+      "address": "https://tokenhub-intl.tencentcloudmaas.com/v1",
+      "keyPage": "https://console.tencentcloud.com/tokenhub/inference", "keyVariable": "TOKENHUB_API_KEY",
+      "models": "typed",
+      "keeps": "https://www.tencentcloud.com/document/product/301/17345",
+      "keepsNote": "Tencent Cloud's privacy policy and data processing agreement apply.",
+      "sources": ["https://www.tencentcloud.com/act/pro/tokenhub"]
+    },
+    {
+      "id": "hunyuan", "name": "Tencent Hunyuan", "kind": "cloud",
+      "about": "the Hunyuan models, on Tencent Cloud in China",
+      "address": "https://api.hunyuan.cloud.tencent.com/v1",
+      "keyPage": "https://console.cloud.tencent.com/hunyuan/start", "keyVariable": "HUNYUAN_API_KEY",
+      "models": "typed", "can": ["vision"],
+      "note": "Tencent is moving Hunyuan to TokenHub; this platform adds no new models.",
+      "keeps": "https://www.tencentcloud.com/document/product/301/17345",
+      "sources": ["https://cloud.tencent.com/document/product/1729/111007"]
+    },
+    {
+      "id": "qianfan", "name": "Baidu Qianfan", "kind": "cloud",
+      "about": "the ERNIE models and others, on Baidu AI Cloud",
+      "address": "https://qianfan.baidubce.com/v2",
+      "keyPage": "https://console.bce.baidu.com/iam/#/iam/apikey/list", "keyVariable": "QIANFAN_API_KEY",
+      "models": "list",
+      "keeps": "https://cloud.baidu.com/doc/Agreements/s/Plr0fi68q",
+      "sources": ["https://cloud.baidu.com/doc/qianfan-api/s/3m9b5lqft", "https://docs.openclaw.ai/providers/qianfan"]
+    },
+    {
+      "id": "volcengine", "name": "Volcengine Ark (Doubao)", "kind": "cloud",
+      "about": "ByteDance's Doubao models, in China",
+      "address": "https://ark.cn-beijing.volces.com/api/v3",
+      "keyPage": "https://console.volcengine.com/ark", "keyVariable": "ARK_API_KEY",
+      "models": "typed",
+      "keeps": "https://docs.volcengine.com/docs/ark/collaboration-reward-program?lang=zh",
+      "keepsNote": "What you send is kept and used to improve its models only through an endpoint you opt into its Collaboration Reward Program (for free tokens, and for good once used); otherwise, its page says, it is neither collected nor stored.",
+      "checked": "2026-09-28",
+      "sources": ["https://docs.volcengine.com/docs/ark/chat-api?lang=zh", "https://docs.volcengine.com/docs/ark/collaboration-reward-program?lang=zh"]
+    },
+    {
+      "id": "byteplus", "name": "BytePlus ModelArk", "kind": "cloud",
+      "about": "ByteDance's Seed, Seedream and Seedance models, outside China",
+      "address": "https://ark.ap-southeast.bytepluses.com/api/v3", "keyVariable": "ARK_API_KEY",
+      "keyHow": "an API key from the ModelArk console",
+      "models": "typed", "can": ["vision", "images", "video"],
+      "keeps": "https://docs.byteplus.com/api/docs/ModelArk/BytePlus_ModelArk_Data_Processing",
+      "keepsNote": "Not used for its own training without your authorization.",
+      "sources": ["https://docs.byteplus.com/api/docs/ModelArk/1330626", "https://docs.byteplus.com/en/docs/ModelArk/1399008"]
+    },
+
+    {
+      "id": "openrouter", "name": "OpenRouter", "kind": "gateway",
+      "about": "hundreds of models from many makers, one key",
+      "address": "https://openrouter.ai/api/v1",
+      "keyPage": "https://openrouter.ai/keys", "keyVariable": "OPENROUTER_API_KEY",
+      "models": "list", "can": ["vision", "tools", "images", "search", "pdf"],
+      "keeps": "https://openrouter.ai/docs/guides/privacy/data-collection",
+      "keepsNote": "Prompts are not stored unless you opt in; the provider behind each answer keeps by its own rules.",
+      "sources": ["https://openrouter.ai/docs/quickstart.md", "https://openrouter.ai/docs/llms.txt", "https://openrouter.ai/docs/guides/privacy/data-collection.md"]
+    },
+    {
+      "id": "vercel", "name": "Vercel AI Gateway", "kind": "gateway",
+      "about": "models from many makers through Vercel, one key",
+      "address": "https://ai-gateway.vercel.sh/v1",
+      "keyPage": "https://vercel.com/docs/ai-gateway/authentication-and-byok", "keyVariable": "AI_GATEWAY_API_KEY",
+      "models": "list", "can": ["vision", "tools", "images", "pdf"],
+      "keeps": "https://vercel.com/docs/ai-gateway/capabilities/zdr",
+      "keepsNote": "Zero retention at the gateway by default; the provider behind each answer keeps by its own rules.",
+      "sources": ["https://vercel.com/docs/ai-gateway/sdks-and-apis/openai-chat-completions"]
+    },
+    {
+      "id": "huggingface", "name": "Hugging Face Inference Providers", "kind": "gateway",
+      "about": "open models from many hosts, one Hugging Face token",
+      "address": "https://router.huggingface.co/v1", "keyVariable": "HF_TOKEN",
+      "keyPage": "https://huggingface.co/settings/tokens/new?ownUserPermissions=inference.serverless.write&tokenType=fineGrained",
+      "models": "list", "can": ["vision"],
+      "note": "The token needs the permission 'Make calls to Inference Providers'. A model name can end in :fastest, :cheapest or :<provider>.",
+      "keeps": "https://huggingface.co/docs/inference-providers/security",
+      "keepsNote": "Request bodies are not stored; logs without user data kept up to 30 days; each host keeps by its own rules.",
+      "sources": ["https://huggingface.co/docs/inference-providers/index"]
+    },
+    {
+      "id": "litellm", "name": "LiteLLM proxy", "kind": "gateway",
+      "about": "your own gateway in front of any providers",
+      "address": "http://localhost:4000", "key": "optional",
+      "keyHow": "a virtual key from your proxy, if it asks for one",
+      "models": "list",
+      "keepsNote": "Your own proxy; the providers behind it keep by their own rules.",
+      "sources": ["https://docs.litellm.ai/docs/proxy/quick_start"]
+    }
+  ]
+}

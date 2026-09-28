@@ -1,0 +1,111 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:DipTick.Views.Desktop"
+        x:Class="DipTick.Views.Desktop.MainWindow"
+        Title="DipTick"
+        Width="1280" Height="820" MinWidth="960" MinHeight="600"
+        WindowStartupLocation="CenterScreen"
+        Background="{DynamicResource GroundBrush}">
+
+  <!--
+    The window. Top to bottom: the F-key bar, above everything; then the rail on the left, and on the
+    right the tabs, the chat's header, the page, the prompt zone, the command list, the bar for ticked
+    messages, the composer and the status bar. Settings, Activity and Help open as a sheet over the right of the page, the chat in
+    view beside it; a click outside the sheet closes it. Zoom is Settings, Appearance, Text size.
+    Everything inside is built in code from the view models.
+  -->
+  <LayoutTransformControl x:Name="Zoom">
+    <Grid RowDefinitions="Auto,*">
+
+      <Border Grid.Row="0" x:Name="KeyBarHost" Classes="keybar" />
+
+      <Grid Grid.Row="1" ColumnDefinitions="Auto,*">
+
+        <Border Grid.Column="0" x:Name="Rail" Width="236" Background="{DynamicResource PanelBrush}"
+                BorderBrush="{DynamicResource HairlineBrush}" BorderThickness="0,0,1,0">
+          <Grid RowDefinitions="Auto,Auto,Auto,*,Auto">
+            <Grid Grid.Row="0" ColumnDefinitions="*,Auto" Margin="16,14,16,10">
+              <TextBlock Grid.Column="0" Text="DipTick" FontSize="19" FontWeight="SemiBold" VerticalAlignment="Center" />
+              <TextBlock Grid.Column="1" x:Name="Clock" FontSize="14" VerticalAlignment="Center" Foreground="{DynamicResource DimBrush}" />
+            </Grid>
+            <Button Grid.Row="1" x:Name="NewChat" Classes="rail primary" Content="+   New chat" ToolTip.Tip="A new chat in a new tab (Ctrl+T)" Margin="12,0,12,8" />
+            <TextBox Grid.Row="2" x:Name="RailSearch" PlaceholderText="search chats" Margin="12,0,12,6" FontSize="13" Padding="8,4" />
+            <ScrollViewer Grid.Row="3" Margin="12,0">
+              <StackPanel x:Name="RailBody" Spacing="2" />
+            </ScrollViewer>
+            <StackPanel Grid.Row="4" x:Name="RailFoot" Margin="12,8,12,12" Spacing="2" />
+          </Grid>
+        </Border>
+
+        <Grid Grid.Column="1" x:Name="MainColumn" RowDefinitions="Auto,Auto,*,Auto,Auto,Auto,Auto,Auto">
+          <Border Grid.Row="0" x:Name="TabsHost" Padding="10,6,10,0" BorderBrush="{DynamicResource HairlineBrush}" BorderThickness="0,0,0,1">
+            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+              <StackPanel x:Name="TabStrip" Orientation="Horizontal" Spacing="4" />
+            </ScrollViewer>
+          </Border>
+
+          <Border Grid.Row="1" Padding="20,7" BorderBrush="{DynamicResource HairlineBrush}" BorderThickness="0,0,0,1">
+            <!--
+              Two lines. First, the chat and who sits at its table, each agent a chip, then + Add agent, and
+              the find box when it is open. Second, who answers and how: the answer chip, What they're told
+              and the permissions chip; the chat's meters take the room left, the last of them
+              giving way first. Each row's last words give way only when even they do not fit; nothing is drawn
+              over anything else.
+            -->
+            <Grid RowDefinitions="Auto,Auto" RowSpacing="6">
+              <DockPanel Grid.Row="0" LastChildFill="False" MinHeight="30">
+                <local:FitRow DockPanel.Dock="Left" x:Name="Where" Spacing="8" AlignLeft="True" DropFromEnd="True" VerticalAlignment="Center" />
+                <TextBox DockPanel.Dock="Right" x:Name="Find" Width="240" PlaceholderText="find in this chat" IsVisible="False"
+                         Margin="14,0,0,0" VerticalAlignment="Center" FontSize="13" Padding="8,4" />
+              </DockPanel>
+              <DockPanel Grid.Row="1" LastChildFill="False" MinHeight="30">
+                <local:FitRow DockPanel.Dock="Left" x:Name="Answering" Spacing="8" AlignLeft="True" DropFromEnd="True" VerticalAlignment="Center" />
+                <local:FitRow DockPanel.Dock="Right" x:Name="Meters" Spacing="14" DropFromEnd="True" VerticalAlignment="Center" />
+              </DockPanel>
+            </Grid>
+          </Border>
+
+          <Panel Grid.Row="2" x:Name="PageHost" ClipToBounds="True">
+            <Border x:Name="Sheet" Classes="sheet" IsVisible="False" HorizontalAlignment="Right">
+              <Grid RowDefinitions="Auto,*">
+                <Grid Grid.Row="0" ColumnDefinitions="*,Auto" Margin="20,12,12,6">
+                  <TextBlock Grid.Column="0" x:Name="SheetTitle" FontSize="18" FontWeight="SemiBold" VerticalAlignment="Center" />
+                  <Button Grid.Column="1" x:Name="SheetClose" Classes="chip" Content="✕  Close" ToolTip.Tip="Back to the chat (Esc, or a click outside)" />
+                </Grid>
+                <Panel Grid.Row="1" x:Name="SheetBody" />
+              </Grid>
+            </Border>
+          </Panel>
+
+          <Border Grid.Row="3" x:Name="PromptHost" Margin="20,8,20,0" />
+          <Border Grid.Row="4" x:Name="PaletteHost" Margin="20,8,20,0" Classes="card" IsVisible="False" Padding="8" />
+          <Border Grid.Row="5" x:Name="SelectBar" Margin="20,8,20,0" Classes="card lit" IsVisible="False" Padding="10,6" />
+
+          <Border Grid.Row="6" x:Name="ComposerHost" Classes="card lit" Margin="20,10,20,8" Padding="12,8" DragDrop.AllowDrop="True">
+            <!--
+              The plan line: who will answer what is typed, before it is sent. Under it, the files waiting
+              to go with the message, each a chip with its size and who at the table will see it; Attach
+              (F7) beside Send. A file dropped anywhere on the chat is attached too.
+            -->
+            <Grid ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto,Auto,Auto">
+              <TextBlock Grid.Row="0" Grid.Column="1" x:Name="PlanLine" FontSize="12" IsVisible="False" Margin="0,0,0,4"
+                         TextTrimming="CharacterEllipsis" />
+              <WrapPanel Grid.Row="1" Grid.Column="1" x:Name="AttachRow" IsVisible="False" Margin="0,0,0,6" />
+              <TextBlock Grid.Row="2" Grid.Column="0" Text="❯" FontSize="18" Classes="accent" VerticalAlignment="Top" Margin="2,6,10,0" />
+              <TextBox Grid.Row="2" Grid.Column="1" x:Name="Input" Classes="composer" AcceptsReturn="True" TextWrapping="Wrap" MaxHeight="220"
+                       PlaceholderText="Type to talk.  @name asks one agent.  /  for commands" />
+              <StackPanel Grid.Row="2" Grid.Column="2" Orientation="Horizontal" Spacing="8" VerticalAlignment="Bottom" Margin="10,0,0,0">
+                <Button x:Name="Attach" Classes="chip" Content="Attach" ToolTip.Tip="Attach an image, a PDF or a text file to your next message (F7). A file dropped on the chat, or an image pasted, is attached too." />
+                <Button x:Name="Send" Classes="primary" Content="Send" />
+              </StackPanel>
+            </Grid>
+          </Border>
+
+          <Border Grid.Row="7" Height="30" Padding="20,0" BorderBrush="{DynamicResource HairlineBrush}" BorderThickness="0,1,0,0">
+            <StackPanel x:Name="StatusLeft" Orientation="Horizontal" Spacing="10" VerticalAlignment="Center" />
+          </Border>
+        </Grid>
+      </Grid>
+    </Grid>
+  </LayoutTransformControl>
+</Window>

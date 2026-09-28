@@ -1,0 +1,8 @@
+# What a build makes: the program, the installer, and what the .NET SDK restores and compiles.
+out/
+bin/
+obj/
+
+.vs/
+*.user
+*.suo

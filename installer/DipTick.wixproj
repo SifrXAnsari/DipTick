@@ -1,0 +1,28 @@
+<!--
+  Builds DipTick's MSI with the WiX Toolset's MSBuild SDK.
+
+    dotnet build DipTick.wixproj -c Release -p:PayloadDir=<folder> -p:DipTickVersion=<x.y.z> -p:AcceptEula=wix7
+
+  PayloadDir is the folder that holds diptick.exe, LICENSE.txt and THIRD-PARTY-NOTICES.txt; a
+  relative path is taken from this project's folder. WiX 7 runs only once its licence is accepted:
+  AcceptEula=wix7 accepts it for that one build and stores nothing. build.ps1 passes it only when
+  told to, with -AcceptWixEula.
+-->
+<Project Sdk="WixToolset.Sdk/7.0.0">
+  <PropertyGroup>
+    <DipTickVersion Condition="'$(DipTickVersion)' == ''">1.0.0</DipTickVersion>
+    <OutputName>DipTick-$(DipTickVersion)-x64</OutputName>
+    <InstallerPlatform>x64</InstallerPlatform>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+
+    <!-- A full path with no trailing backslash. -->
+    <PayloadPath Condition="'$(PayloadDir)' != ''">$([MSBuild]::NormalizePath('$(MSBuildProjectDirectory)', '$(PayloadDir)').TrimEnd('\'))</PayloadPath>
+
+    <!-- What Package.wxs is handed. -->
+    <DefineConstants>$(DefineConstants);DipTickVersion=$(DipTickVersion);PayloadDir=$(PayloadPath)</DefineConstants>
+  </PropertyGroup>
+
+  <Target Name="RequirePayloadDir" BeforeTargets="CoreCompile" Condition="'$(PayloadDir)' == ''">
+    <Error Text="Set PayloadDir to the folder that holds diptick.exe, LICENSE.txt and THIRD-PARTY-NOTICES.txt." />
+  </Target>
+</Project>

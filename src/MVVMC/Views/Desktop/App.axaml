@@ -1,0 +1,332 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="DipTick.Views.Desktop.App"
+             RequestedThemeVariant="Dark">
+
+  <!--
+    The look: near-black ground, one accent (green), cream ink, dim hints,
+    amber for approvals, red for errors, a blue kept for light effects. Every ink colour reads at
+    4.5:1 or better on the surface it sits on, in both themes.
+  -->
+  <Application.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Dark">
+          <SolidColorBrush x:Key="GroundBrush">#101014</SolidColorBrush>
+          <SolidColorBrush x:Key="PanelBrush">#15161D</SolidColorBrush>
+          <SolidColorBrush x:Key="RaisedBrush">#1D1F28</SolidColorBrush>
+          <SolidColorBrush x:Key="HoverBrush">#262935</SolidColorBrush>
+          <SolidColorBrush x:Key="HairlineBrush">#2A2D3A</SolidColorBrush>
+          <SolidColorBrush x:Key="InkBrush">#E8E6E3</SolidColorBrush>
+          <SolidColorBrush x:Key="DimBrush">#9A9DA8</SolidColorBrush>
+          <SolidColorBrush x:Key="AccentBrush">#3DDC97</SolidColorBrush>
+          <SolidColorBrush x:Key="AccentInkBrush">#07110C</SolidColorBrush>
+          <SolidColorBrush x:Key="AccentSoftBrush">#1F3DDC97</SolidColorBrush>
+          <SolidColorBrush x:Key="WarningBrush">#FFB020</SolidColorBrush>
+          <SolidColorBrush x:Key="WarningSoftBrush">#22FFB020</SolidColorBrush>
+          <SolidColorBrush x:Key="ErrorBrush">#FF6B6B</SolidColorBrush>
+          <SolidColorBrush x:Key="PlasmaBrush">#7FD8FF</SolidColorBrush>
+          <SolidColorBrush x:Key="CodeBrush">#0B0C10</SolidColorBrush>
+          <SolidColorBrush x:Key="SelectionBrush">#553DDC97</SolidColorBrush>
+          <!-- Each agent's colour (<id>.color): 7:1 or better on every surface here, by WCAG 2's formula. -->
+          <SolidColorBrush x:Key="SeatCyanBrush">#5CD3E6</SolidColorBrush>
+          <SolidColorBrush x:Key="SeatMagentaBrush">#F28BD9</SolidColorBrush>
+          <SolidColorBrush x:Key="SeatBlueBrush">#8FA8FF</SolidColorBrush>
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="Light">
+          <SolidColorBrush x:Key="GroundBrush">#F6F5F2</SolidColorBrush>
+          <SolidColorBrush x:Key="PanelBrush">#FFFFFF</SolidColorBrush>
+          <SolidColorBrush x:Key="RaisedBrush">#EEEDE8</SolidColorBrush>
+          <SolidColorBrush x:Key="HoverBrush">#E4E2DB</SolidColorBrush>
+          <SolidColorBrush x:Key="HairlineBrush">#D8D6CF</SolidColorBrush>
+          <SolidColorBrush x:Key="InkBrush">#1A1B21</SolidColorBrush>
+          <SolidColorBrush x:Key="DimBrush">#5C5F6B</SolidColorBrush>
+          <SolidColorBrush x:Key="AccentBrush">#127A54</SolidColorBrush>
+          <SolidColorBrush x:Key="AccentInkBrush">#FFFFFF</SolidColorBrush>
+          <SolidColorBrush x:Key="AccentSoftBrush">#22127A54</SolidColorBrush>
+          <SolidColorBrush x:Key="WarningBrush">#8A5100</SolidColorBrush>
+          <SolidColorBrush x:Key="WarningSoftBrush">#22FFB020</SolidColorBrush>
+          <SolidColorBrush x:Key="ErrorBrush">#B3261E</SolidColorBrush>
+          <SolidColorBrush x:Key="PlasmaBrush">#1D6FA5</SolidColorBrush>
+          <SolidColorBrush x:Key="CodeBrush">#EEEDE8</SolidColorBrush>
+          <SolidColorBrush x:Key="SelectionBrush">#66127A54</SolidColorBrush>
+          <!-- Each agent's colour: 5:1 or better on every surface here. -->
+          <SolidColorBrush x:Key="SeatCyanBrush">#0B6E80</SolidColorBrush>
+          <SolidColorBrush x:Key="SeatMagentaBrush">#A3287F</SolidColorBrush>
+          <SolidColorBrush x:Key="SeatBlueBrush">#2F55C8</SolidColorBrush>
+        </ResourceDictionary>
+      </ResourceDictionary.ThemeDictionaries>
+      <FontFamily x:Key="MonoFont">Cascadia Mono, Consolas, Courier New, monospace</FontFamily>
+    </ResourceDictionary>
+  </Application.Resources>
+
+  <Application.Styles>
+    <!--
+      Fluent's own accent (a list's chosen row, a ticked box, a switch that is on) is DipTick's one
+      green in each theme, never Windows' accent colour. A palette, not loose colour keys: Fluent
+      derives every shade from it for both themes.
+    -->
+    <FluentTheme>
+      <FluentTheme.Palettes>
+        <ColorPaletteResources x:Key="Light" Accent="#127A54" />
+        <ColorPaletteResources x:Key="Dark" Accent="#3DDC97" />
+      </FluentTheme.Palettes>
+    </FluentTheme>
+
+    <Style Selector="TextBlock">
+      <Setter Property="Foreground" Value="{DynamicResource InkBrush}" />
+    </Style>
+    <Style Selector="TextBlock.dim">
+      <Setter Property="Foreground" Value="{DynamicResource DimBrush}" />
+    </Style>
+    <Style Selector="TextBlock.accent">
+      <Setter Property="Foreground" Value="{DynamicResource AccentBrush}" />
+    </Style>
+    <Style Selector="TextBlock.warning">
+      <Setter Property="Foreground" Value="{DynamicResource WarningBrush}" />
+    </Style>
+    <Style Selector="TextBlock.error">
+      <Setter Property="Foreground" Value="{DynamicResource ErrorBrush}" />
+    </Style>
+    <Style Selector="TextBlock.mono, SelectableTextBlock.mono">
+      <Setter Property="FontFamily" Value="{DynamicResource MonoFont}" />
+      <Setter Property="FontSize" Value="13" />
+    </Style>
+    <Style Selector="SelectableTextBlock">
+      <Setter Property="Foreground" Value="{DynamicResource InkBrush}" />
+      <Setter Property="SelectionBrush" Value="{DynamicResource SelectionBrush}" />
+    </Style>
+    <Style Selector="SelectableTextBlock.dim">
+      <Setter Property="Foreground" Value="{DynamicResource DimBrush}" />
+    </Style>
+
+    <!-- A card: what a message, a question or a page section sits in. -->
+    <Style Selector="Border.card">
+      <Setter Property="Background" Value="{DynamicResource PanelBrush}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource HairlineBrush}" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="CornerRadius" Value="12" />
+      <Setter Property="Padding" Value="14" />
+    </Style>
+    <Style Selector="Border.lit">
+      <Setter Property="BorderBrush" Value="{DynamicResource AccentBrush}" />
+    </Style>
+    <Style Selector="Border.alert">
+      <Setter Property="BorderBrush" Value="{DynamicResource WarningBrush}" />
+      <Setter Property="Background" Value="{DynamicResource WarningSoftBrush}" />
+    </Style>
+
+    <!-- Buttons: quiet by default; the accent for the one thing to do next. -->
+    <Style Selector="Button">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="Foreground" Value="{DynamicResource InkBrush}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource HairlineBrush}" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="CornerRadius" Value="8" />
+      <Setter Property="Padding" Value="12,6" />
+      <Setter Property="FontSize" Value="14" />
+    </Style>
+    <Style Selector="Button:pointerover /template/ ContentPresenter">
+      <Setter Property="Background" Value="{DynamicResource HoverBrush}" />
+      <Setter Property="Foreground" Value="{DynamicResource InkBrush}" />
+    </Style>
+    <Style Selector="Button.primary">
+      <Setter Property="BorderThickness" Value="0" />
+      <Setter Property="FontWeight" Value="SemiBold" />
+    </Style>
+    <Style Selector="Button.primary /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{DynamicResource AccentBrush}" />
+      <Setter Property="Foreground" Value="{DynamicResource AccentInkBrush}" />
+    </Style>
+    <Style Selector="Button.primary:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{DynamicResource AccentBrush}" />
+      <Setter Property="Foreground" Value="{DynamicResource AccentInkBrush}" />
+      <Setter Property="Opacity" Value="0.88" />
+    </Style>
+    <Style Selector="Button.primary:pressed /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{DynamicResource AccentBrush}" />
+      <Setter Property="Foreground" Value="{DynamicResource AccentInkBrush}" />
+      <Setter Property="Opacity" Value="0.75" />
+    </Style>
+    <!-- A primary button that cannot act now looks it: Copy with nothing ticked. -->
+    <Style Selector="Button.primary:disabled /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="{DynamicResource AccentBrush}" />
+      <Setter Property="Foreground" Value="{DynamicResource AccentInkBrush}" />
+      <Setter Property="Opacity" Value="0.4" />
+    </Style>
+    <Style Selector="Button.rail">
+      <Setter Property="HorizontalAlignment" Value="Stretch" />
+      <!-- Stretch, not Left: a row's key hint sits at the right edge instead of glued to its label. -->
+      <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+      <Setter Property="BorderThickness" Value="0" />
+      <Setter Property="Padding" Value="10,7" />
+    </Style>
+    <Style Selector="Button.rail.current">
+      <Setter Property="Background" Value="{DynamicResource RaisedBrush}" />
+    </Style>
+    <Style Selector="Button.row">
+      <Setter Property="HorizontalAlignment" Value="Stretch" />
+      <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+      <Setter Property="BorderThickness" Value="0" />
+      <Setter Property="Padding" Value="10,6" />
+      <Setter Property="CornerRadius" Value="6" />
+    </Style>
+    <Style Selector="Button.row.current">
+      <Setter Property="Background" Value="{DynamicResource RaisedBrush}" />
+    </Style>
+    <Style Selector="Button.chip">
+      <Setter Property="Padding" Value="8,2" />
+      <Setter Property="FontSize" Value="12" />
+      <Setter Property="CornerRadius" Value="999" />
+    </Style>
+    <!-- A tab across the top of the chat: flat until it is the one in front, which stands on the page with an accent line. -->
+    <Style Selector="Button.tab">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderThickness" Value="0,0,0,2" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="CornerRadius" Value="6,6,0,0" />
+      <Setter Property="Padding" Value="10,5" />
+      <Setter Property="FontSize" Value="13" />
+      <Setter Property="MinHeight" Value="0" />
+    </Style>
+    <Style Selector="Button.tab.current">
+      <Setter Property="Background" Value="{DynamicResource RaisedBrush}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource AccentBrush}" />
+    </Style>
+    <Style Selector="Button.tab.new">
+      <Setter Property="Padding" Value="9,5" />
+      <Setter Property="Foreground" Value="{DynamicResource DimBrush}" />
+    </Style>
+    <!-- A section's name on the rail, which folds it: flat, like the label it is. -->
+    <Style Selector="Button.rail.label">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="Padding" Value="10,12,0,4" />
+    </Style>
+    <!-- A small action on a card: Copy, ⋯, ✕, Default. Raised, so it reads over the text beneath it. -->
+    <Style Selector="Button.tool">
+      <Setter Property="Padding" Value="7,1" />
+      <Setter Property="FontSize" Value="12" />
+      <Setter Property="MinHeight" Value="0" />
+      <Setter Property="Background" Value="{DynamicResource RaisedBrush}" />
+    </Style>
+
+    <!-- A message: its Copy and ⋯ show while the pointer is over it; a ticked one is lit. -->
+    <Style Selector="Border.message">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="CornerRadius" Value="8" />
+    </Style>
+    <Style Selector="Border.message StackPanel.tools">
+      <Setter Property="IsVisible" Value="False" />
+    </Style>
+    <Style Selector="Border.message:pointerover StackPanel.tools">
+      <Setter Property="IsVisible" Value="True" />
+    </Style>
+    <Style Selector="Border.message.selecting StackPanel.tools">
+      <Setter Property="IsVisible" Value="False" />
+    </Style>
+    <Style Selector="Border.message.selected">
+      <Setter Property="Background" Value="{DynamicResource AccentSoftBrush}" />
+    </Style>
+    <!-- A code block's Copy, likewise. -->
+    <Style Selector="Border.code StackPanel.tools">
+      <Setter Property="IsVisible" Value="False" />
+    </Style>
+    <Style Selector="Border.code:pointerover StackPanel.tools">
+      <Setter Property="IsVisible" Value="True" />
+    </Style>
+
+    <!--
+      The F-key bar across the top: a quiet strip over everything, each
+      key a flat button that lights under the pointer; a key with nothing to do here is dimmed.
+    -->
+    <Style Selector="Border.keybar">
+      <Setter Property="Background" Value="{DynamicResource PanelBrush}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource HairlineBrush}" />
+      <Setter Property="BorderThickness" Value="0,0,0,1" />
+      <Setter Property="Padding" Value="6,3" />
+    </Style>
+    <Style Selector="Button.fkey">
+      <Setter Property="BorderThickness" Value="0" />
+      <Setter Property="Padding" Value="8,3" />
+      <Setter Property="CornerRadius" Value="6" />
+      <Setter Property="MinHeight" Value="0" />
+    </Style>
+    <Style Selector="Button.fkey:disabled">
+      <Setter Property="Opacity" Value="0.35" />
+    </Style>
+    <Style Selector="Button.fkey:disabled /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="Transparent" />
+    </Style>
+
+    <!-- A sheet: Settings, Activity, Help over the right of the page, the chat in view beside it. -->
+    <Style Selector="Border.sheet">
+      <Setter Property="Background" Value="{DynamicResource PanelBrush}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource HairlineBrush}" />
+      <Setter Property="BorderThickness" Value="1,0,0,0" />
+      <Setter Property="BoxShadow" Value="-8 0 24 0 #40000000" />
+    </Style>
+
+    <!-- A setting changed where it stands (a switch, a list). -->
+    <Style Selector="Border.setting">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="Padding" Value="10,4" />
+      <Setter Property="CornerRadius" Value="6" />
+    </Style>
+    <Style Selector="Border.setting:pointerover">
+      <Setter Property="Background" Value="{DynamicResource HoverBrush}" />
+    </Style>
+    <Style Selector="Border.setting.current">
+      <Setter Property="Background" Value="{DynamicResource RaisedBrush}" />
+    </Style>
+
+    <!--
+      Density, compact (Settings, Appearance): the rows sit closer. By class alone: the window is a
+      MainWindow, whose style key is its own type, so a Window selector would not match it.
+    -->
+    <Style Selector=".compact Button.rail">
+      <Setter Property="Padding" Value="10,3" />
+    </Style>
+    <Style Selector=".compact Button.row">
+      <Setter Property="Padding" Value="10,2" />
+    </Style>
+    <Style Selector=".compact Border.setting">
+      <Setter Property="Padding" Value="10,1" />
+    </Style>
+
+    <!-- The line the person types in: explicit colours in every state. -->
+    <Style Selector="TextBox">
+      <Setter Property="Background" Value="{DynamicResource PanelBrush}" />
+      <Setter Property="Foreground" Value="{DynamicResource InkBrush}" />
+      <Setter Property="CaretBrush" Value="{DynamicResource AccentBrush}" />
+      <Setter Property="SelectionBrush" Value="{DynamicResource SelectionBrush}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource HairlineBrush}" />
+      <Setter Property="CornerRadius" Value="8" />
+      <Setter Property="FontSize" Value="15" />
+      <Setter Property="Padding" Value="10,8" />
+    </Style>
+    <Style Selector="TextBox:focus /template/ Border#PART_BorderElement">
+      <Setter Property="BorderBrush" Value="{DynamicResource AccentBrush}" />
+      <Setter Property="Background" Value="{DynamicResource PanelBrush}" />
+    </Style>
+    <Style Selector="TextBox:pointerover /template/ Border#PART_BorderElement">
+      <Setter Property="Background" Value="{DynamicResource PanelBrush}" />
+    </Style>
+    <Style Selector="TextBox.composer">
+      <Setter Property="BorderThickness" Value="0" />
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="FontSize" Value="16" />
+      <Setter Property="Padding" Value="4,6" />
+    </Style>
+    <Style Selector="TextBox.composer:focus /template/ Border#PART_BorderElement">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderThickness" Value="0" />
+    </Style>
+    <Style Selector="TextBox.composer:pointerover /template/ Border#PART_BorderElement">
+      <Setter Property="Background" Value="Transparent" />
+    </Style>
+
+    <Style Selector="ScrollViewer">
+      <Setter Property="Background" Value="Transparent" />
+    </Style>
+  </Application.Styles>
+</Application>

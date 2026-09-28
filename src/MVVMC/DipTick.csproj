@@ -1,0 +1,100 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>diptick</AssemblyName>
+    <RootNamespace>DipTick</RootNamespace>
+    <!-- The one place the version is set: diptick version, the Help pages and the installer read it. -->
+
+    <Version>1.0.0</Version>
+    <Product>DipTick</Product>
+    <Authors>Sifr X Ansari</Authors>
+    <Copyright>Copyright (c) 2026 Sifr X Ansari</Copyright>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <AnalysisMode>All</AnalysisMode>
+    <!-- LibraryImport (FileFacts, ChatView) generates its marshalling as unsafe code. -->
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+    <!-- consoleAllocationPolicy detached: no console behind the window when started from Explorer. -->
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+
+  <!--
+    Published, DipTick is one file: the program, the .NET runtime, and the native libraries it
+    unpacks to a folder of its own the first time a version starts (Models\Unpacked.cs), all of it
+    compressed. Symbol files stay out. The runtime and self-containment are named when publishing
+    (build.ps1), so everyday builds and the tests keep their usual shape.
+  -->
+  <PropertyGroup>
+    <PublishSingleFile>true</PublishSingleFile>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+    <CopyOutputSymbolsToPublishDirectory>false</CopyOutputSymbolsToPublishDirectory>
+  </PropertyGroup>
+
+  <!-- The native packages' own symbol files (SkiaSharp's and HarfBuzzSharp's) are not published. -->
+  <Target Name="DropPackageNativeSymbols" AfterTargets="ComputeResolvedFilesToPublishList">
+    <ItemGroup>
+      <ResolvedFileToPublish Remove="@(ResolvedFileToPublish)" Condition="'%(ResolvedFileToPublish.AssetType)' == 'native' And '%(ResolvedFileToPublish.Extension)' == '.pdb'" />
+    </ItemGroup>
+  </Target>
+
+  <ItemGroup>
+    <!-- Claude through Anthropic's own C# SDK. -->
+    <PackageReference Include="Anthropic" Version="12.50.0" />
+    <!--
+      Google Cloud. Claude on Google Cloud through Anthropic's own package for it (platform.claude.com,
+      "Claude on Google Cloud"); Gemini and the other models Google hosts through Google's own sign-in
+      library, whose Application Default Credentials are what Google documents for its APIs.
+    -->
+    <PackageReference Include="Anthropic.Vertex" Version="0.5.3" />
+    <PackageReference Include="Google.Apis.Auth" Version="1.76.0" />
+    <!-- The session store: Microsoft's SQLite provider with the bundled e_sqlite3. -->
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.12" />
+    <!-- Argon2id for the password hash (libsodium through NSec). -->
+    <PackageReference Include="NSec.Cryptography" Version="26.4.0" />
+    <PackageReference Include="System.Security.Cryptography.ProtectedData" Version="10.0.12" />
+    <!--
+      Research: pages DipTick fetches read as text through AngleSharp, an HTML5 parser (MIT), and
+      SmartReader, a port of Mozilla's Readability (Apache-2.0), which is only ever handed a page
+      already fetched.
+    -->
+    <PackageReference Include="AngleSharp" Version="1.8.2" />
+    <PackageReference Include="SmartReader" Version="0.11.1" />
+    <!-- Connectors: the official MCP C# SDK, Apache-2.0; the client only. -->
+    <PackageReference Include="ModelContextProtocol.Core" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!--
+      The window (diptick ui): Avalonia 12 with the Windows backends named rather than detected, so
+      the X11 backend and its advisory never ship. Avalonia 12 split text shaping out of Skia, so
+      HarfBuzz is named too (docs.avaloniaui.net, "Breaking changes in Avalonia 12").
+    -->
+    <PackageReference Include="Avalonia" Version="[12.1.3]" />
+    <PackageReference Include="Avalonia.Win32" Version="[12.1.3]" />
+    <PackageReference Include="Avalonia.Skia" Version="[12.1.3]" />
+    <PackageReference Include="Avalonia.HarfBuzz" Version="[12.1.3]" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="[12.1.3]" />
+    <PackageReference Include="Avalonia.Fonts.Inter" Version="[12.1.3]" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- The starter config 'diptick init' writes: the same file as the project's, carried inside the exe. -->
+    <EmbeddedResource Include="..\..\diptick.master.json" LogicalName="diptick.master.json" />
+    <!-- The session store's tables, run whole on first open. -->
+    <EmbeddedResource Include="Models\Chat\Store\schema.sql" LogicalName="schema.sql" />
+    <!-- The provider catalogue: compiled in, never fetched. -->
+    <EmbeddedResource Include="Models\Providers\catalogue.json" LogicalName="catalogue.json" />
+    <!-- The official docs (docs\user), inside the exe: Help in both screens and 'diptick docs' read them offline. -->
+    <EmbeddedResource Include="..\..\docs\user\*.md" LogicalName="docs/%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Terminal.Gui" Version="2.5.0" />
+  </ItemGroup>
+
+</Project>

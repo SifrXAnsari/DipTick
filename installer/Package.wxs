@@ -1,0 +1,73 @@
+<!--
+  DipTick's installer: per-machine, 64-bit, one file. No custom actions and no dialogs: Windows
+  Installer shows its own progress window.
+-->
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <!--
+    The UpgradeCode ties every DipTick release together, so a newer MSI replaces an older one.
+    It must never change.
+  -->
+  <Package Name="DipTick"
+           Manufacturer="Sifr X Ansari"
+           Version="$(DipTickVersion)"
+           UpgradeCode="A0869E8E-03BF-4FE7-BE2D-1031897ADD83"
+           Scope="perMachine">
+
+    <!-- A newer version replaces an older one; an older version does not install over a newer one. -->
+    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+
+    <!-- The cabinet inside the MSI: one file to hand on. -->
+    <MediaTemplate EmbedCab="yes" />
+
+    <!-- Add/Remove Programs: no Change button, and no help, support or contact entries: none is offered. -->
+    <Property Id="ARPNOMODIFY" Value="1" />
+
+    <!-- Program Files\DipTick, in the 64-bit Program Files folder. -->
+    <StandardDirectory Id="ProgramFiles64Folder">
+      <Directory Id="INSTALLFOLDER" Name="DipTick" />
+    </StandardDirectory>
+
+    <!-- One feature: everything installs together. -->
+    <Feature Id="DipTick" Title="DipTick">
+      <ComponentGroupRef Id="ProgramFiles" />
+      <ComponentRef Id="StartMenuShortcut" />
+    </Feature>
+
+    <ComponentGroup Id="ProgramFiles" Directory="INSTALLFOLDER">
+      <Component Id="DipTickExe">
+        <File Id="DipTickExe" Source="$(PayloadDir)\diptick.exe" KeyPath="yes" />
+
+        <!-- The install folder at the end of the system PATH, so diptick runs from any terminal. Uninstall takes out that entry and nothing else. -->
+        <Environment Id="PathEntry" Name="PATH" Value="[INSTALLFOLDER]" Action="set" Part="last" System="yes" Permanent="no" />
+      </Component>
+
+      <Component Id="LicenseTxt">
+        <File Id="LicenseTxt" Source="$(PayloadDir)\LICENSE.txt" KeyPath="yes" />
+      </Component>
+
+      <Component Id="ThirdPartyNoticesTxt">
+        <File Id="ThirdPartyNoticesTxt" Source="$(PayloadDir)\THIRD-PARTY-NOTICES.txt" KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+
+    <!--
+      The Start menu's DipTick: diptick.exe, which opens the terminal screen in a console of its own.
+      The target is a path, not a file reference, because the file belongs to another component
+      (ICE69). A component holding a shortcut that is not advertised needs a per-user registry value
+      as its key path (ICE38, ICE43, ICE57): written for the account that installs, and taken away
+      when that account uninstalls.
+    -->
+    <StandardDirectory Id="ProgramMenuFolder">
+      <Component Id="StartMenuShortcut">
+        <Shortcut Id="StartMenuShortcut" Name="DipTick" Description="A chat with models: the terminal screen" Target="[INSTALLFOLDER]diptick.exe" WorkingDirectory="INSTALLFOLDER" />
+        <RegistryValue Root="HKCU" Key="Software\DipTick" Name="StartMenuShortcut" Type="integer" Value="1" KeyPath="yes" />
+      </Component>
+    </StandardDirectory>
+
+    <!--
+      Uninstall takes away what this package put there: the files, the folder, the PATH entry, the
+      shortcut and its registry value. DipTick's own data and settings belong to each person who
+      used it; this package neither makes them nor removes them.
+    -->
+  </Package>
+</Wix>

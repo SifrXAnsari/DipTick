@@ -1,0 +1,10 @@
+# Line endings as Windows expects them in every file, whatever machine checks the repository out.
+* text=auto eol=crlf
+
+# Never touched.
+*.png binary
+*.ico binary
+*.exe binary
+*.dll binary
+*.msi binary
+*.zip binary

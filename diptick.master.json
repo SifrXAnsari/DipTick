@@ -1,0 +1,147 @@
+// DipTick master config. JSON with comments and trailing commas.
+// `diptick setup` fills in the parts that matter (the window runs it once, then from Settings, You,
+// Run setup again); `diptick settings` explains every one, and the window's Settings changes any.
+// A bad value never breaks anything: `diptick config check` reports it and its default is used.
+// Nothing secret is kept here in the clear. The password is an Argon2id hash written by
+// `diptick config password`. Model keys are saved in Windows Credential Manager by setup or
+// `diptick key set`, or read from an environment variable named below; never written here.
+{
+  "schema": 1,
+
+  "user": {
+    "name": "",
+    // Set with `diptick config password`. A plain "password" key is refused.
+    "passwordHash": "",
+    // Your own instructions, told to every agent in every chat and marked as yours; up to 2000
+    // characters. `diptick chat brief` shows exactly what each agent is told.
+    "brief": "",
+  },
+
+  "db": {
+    // One of the six a person and an agent can both work in:
+    //   sqlite      one file, nothing to install (the default); vectors via sqlite-vec
+    //   postgresql  server; vectors via pgvector
+    //   sqlserver   server; SQL Server 2025's vector type
+    //   duckdb      one file, analytics; one writer at a time
+    //   mariadb     server; vectors built in (11.8 LTS and later)
+    //   neo4j       graph server; Cypher, vector indexes
+    "kind": "sqlite",
+    // A file path for sqlite/duckdb, a connection string or URL for the rest. No password in it.
+    "connection": "diptick.db",
+    // Name of the environment variable holding the database password, if it needs one.
+    "secretVariable": "",
+  },
+
+  // What agents may do. Anything no rule names is denied, and nothing here changes that.
+  // Capabilities: model.call fs.read fs.write fs.delete net.fetch net.probe web.search media.make
+  // mcp.call db.read db.write shell.run, a group like "fs.*", "*", or one narrowed to a target
+  // like "mcp.call:clickup/*". Deny beats ask beats allow. --yes answers an ask only for what
+  // changes nothing; a write or delete always waits for a person. `diptick policy preset`
+  // sets these three lists to locked, standard (these) or trusted; a chat can tighten them.
+  "permissions": {
+    "allow": ["model.call", "web.search"],
+    "ask": ["fs.read", "fs.write", "net.fetch", "net.probe", "db.read", "media.make", "mcp.call"],
+    "deny": ["fs.delete", "db.write", "shell.run"],
+    // Folders the fs.* capabilities may touch. None: no file access at all.
+    "roots": [],
+    // Hosts net.fetch may reach: "example.com", "*.example.com", or "*" for any public site, never
+    // this PC, your network or a link-local address. None: no web at all.
+    "hosts": ["*"],
+  },
+
+  // The main model: the one that answers you, and sits first at every new chat's table as "main".
+  "main": {
+    // Who serves it: a provider's id from `diptick providers` ("ollama", "openai", "anthropic",
+    // "google", "vertex", ...), or "openai-compatible" (any other server with the OpenAI chat
+    // API; needs endpoint).
+    "provider": "",
+    // `diptick models` lists what the provider offers; /model in the chat picks from it.
+    "model": "",
+    // Base URL of the API. Empty means the provider's own default; some providers, like
+    // Google Cloud or your Azure resource, need theirs (`diptick providers show <id>`).
+    "endpoint": "",
+    // Name of an environment variable holding the key, not the key. Empty uses the key saved
+    // for the endpoint's host by setup or `diptick key set`.
+    "keyVariable": "",
+    // Seconds to wait for one answer, 1 to 600.
+    "timeoutSeconds": 120,
+    // The Anthropic workspace the key acts in (wrkspc_...): for Claude Platform on AWS, which
+    // needs one, or an Anthropic key that can act in several. Empty for none.
+    "workspace": "",
+    // The most tokens one answer may take, 1 to 128000; on a model that thinks, thinking counts.
+    "maxAnswerTokens": 4000,
+    // How much of a long chat it is sent, in tokens; older rounds are left out whole.
+    "contextTokens": 128000,
+    // Its prices per million tokens read and written, from the provider's price page; null for
+    // unknown. With them each answer shows what it cost, and a cap under "money" can hold it.
+    "priceIn": null,
+    "priceOut": null,
+    // Your instructions for this model in every chat, marked as yours; up to 2000 characters.
+    "brief": "",
+  },
+
+  // How a chat's agents take turns. Each chat keeps its own table and mode; these start new ones.
+  "chat": {
+    // The agents a new chat seats beside "main", in speaking order; four at a table in all.
+    "seats": [],
+    // Who answers when you address nobody: "all" (every agent at once), "solo <name>", "pick",
+    // "relay <a> <b>", "review <builder> <reviewer> [revise]", or "stack <a> <b> [turns]".
+    "mode": "all",
+    // The most agent answers one thing you say can bring, 1 to 8.
+    "maxAiTurns": 4,
+    // How long one round may run, in seconds, and how many tokens its answers may write together.
+    "maxRoundSeconds": 300,
+    "maxRoundTokens": 16000,
+    // How much of one agent's answer another agent is shown, in characters.
+    "maxQuotedChars": 16000,
+  },
+
+  // What answers cost. Nothing asks before spending unless you set a cap here.
+  "money": {
+    "showCost": true,
+    // Three letters, the currency your prices are in. Only a label: nothing is converted.
+    "currency": "USD",
+    // Each null (off) or an amount: a chat, all chats today, all chats this month.
+    "capChat": null,
+    "capDay": null,
+    "capMonth": null,
+  },
+
+  // What quitting does besides closing. Esc three times, F10, Ctrl+Q and /quit all quit.
+  "quit": {
+    // Ask Ollama on this PC to unload the models DipTick used, so they stop holding memory.
+    "unloadModels": true,
+  },
+
+  "output": {
+    // "text" for people, "json" for programs, "none" for the exit code alone.
+    "format": "text",
+  },
+
+  // Defaults for the global flags. Each is overridden by its DIPTICK_* variable, and that by
+  // the flag itself; every one has an off form on the command line (diptick help).
+  "cli": {
+    // Change nothing; report what would change. A bad value here reads as true.
+    "dryRun": false,
+    // Answer yes to your own moderate confirmations. Never answers an agent's write or delete.
+    "yes": false,
+    // "auto": ask only when stdin is a keyboard. true or false forces it.
+    "interactive": "auto",
+    // "quiet", "normal", "verbose", "debug".
+    "verbosity": "normal",
+    // "auto", "always", "never". NO_COLOR is honoured under "auto".
+    "color": "auto",
+    // Seconds per database or network call, 1 to 600. Answers use main.timeoutSeconds.
+    "timeoutSeconds": 60,
+  },
+
+  // How the window looks. The terminal screen (diptick tui) keeps the terminal's own look.
+  "appearance": {
+    // "dark", "light", or "system" to follow Windows as it changes.
+    "theme": "dark",
+    // "small", "normal", "large", "larger": how large the window draws everything.
+    "textSize": "normal",
+    // "comfortable" or "compact".
+    "density": "comfortable",
+  },
+}
