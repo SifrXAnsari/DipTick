@@ -1,6 +1,7 @@
 // DipTick master config. JSON with comments and trailing commas.
-// `diptick setup` fills in the parts that matter (the window runs it once, then from Settings, You,
-// Run setup again); `diptick settings` explains every one, and the window's Settings changes any.
+// `diptick setup` fills in the parts that matter (DipTick runs it once, the first time it opens,
+// then from Settings, You, Run setup again); `diptick settings` explains every one, and Settings,
+// in the terminal screen or the window, changes any.
 // A bad value never breaks anything: `diptick config check` reports it and its default is used.
 // Nothing secret is kept here in the clear. The password is an Argon2id hash written by
 // `diptick config password`. Model keys are saved in Windows Credential Manager by setup or
@@ -17,16 +18,12 @@
     "brief": "",
   },
 
+  // A connection to a database of your own. Nothing in DipTick uses one: these are read and
+  // checked, and connect to nothing. Your chats are kept in sessions.db, not here.
   "db": {
-    // One of the six a person and an agent can both work in:
-    //   sqlite      one file, nothing to install (the default); vectors via sqlite-vec
-    //   postgresql  server; vectors via pgvector
-    //   sqlserver   server; SQL Server 2025's vector type
-    //   duckdb      one file, analytics; one writer at a time
-    //   mariadb     server; vectors built in (11.8 LTS and later)
-    //   neo4j       graph server; Cypher, vector indexes
+    // sqlite, postgresql, sqlserver, duckdb, mariadb or neo4j.
     "kind": "sqlite",
-    // A file path for sqlite/duckdb, a connection string or URL for the rest. No password in it.
+    // A file path for sqlite or duckdb, a connection string or URL for the rest. No password in it.
     "connection": "diptick.db",
     // Name of the environment variable holding the database password, if it needs one.
     "secretVariable": "",
